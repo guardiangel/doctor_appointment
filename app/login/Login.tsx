@@ -61,6 +61,15 @@ const Login = ({ type, handleType }: Props) => {
           >
             <Form>
               <div className="sm:grid grid-cols-1 grid-rows-2 gap-x-2 gap-y-2 my-5 text-center align-baseline">
+                {(() => {
+                  if (type == "1") {
+                    return <div>Admin Login</div>;
+                  } else if (type == "2") {
+                    return <div>Doctor Login</div>;
+                  } else if (type == "3") {
+                    return <div>User Login</div>;
+                  }
+                })()}
                 {/**userId */}
                 <div>
                   <label htmlFor="inputUserId">UserId:</label>

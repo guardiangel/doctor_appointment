@@ -13,6 +13,3 @@ This demo consists of Nextjs,tailwindcss,prisma
 &nbsp;&nbsp;yarn add typescript ts-node @types/node //used for inserting data to database
 &nbsp;&nbsp;npx prisma db push //create table
 &nbsp;&nbsp;npx prisma db seed // insert data to database, see seed.ts and package.json for more details
-
-4. Add an editor
-   yarn add @tiptap/react @tiptap/pm @tiptap/starter-kit
