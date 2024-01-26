@@ -34,10 +34,28 @@ const users = [
   },
 ];
 
+const treatments = [
+  {
+    userId: "3001",
+    dise: "Bone",
+    treatment: "Pills",
+    note: "Normal",
+  },
+  {
+    userId: "3001",
+    dise: "ABC",
+    treatment: "Operations",
+    note: "Minor Operation",
+  },
+];
+
 async function main() {
   console.log(`starting seeding...`);
   for (const user of users) {
     await prisma.user.create({ data: user });
+  }
+  for (const treatment of treatments) {
+    await prisma.treatment.create({ data: treatment });
   }
   console.log(`finish seeding`);
 }

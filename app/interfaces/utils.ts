@@ -8,3 +8,13 @@ export interface UserEntity {
   email: string;
   type: string;
 }
+
+export interface TreatmentEntity {
+  id: string;
+  userId: string;
+  userName: string;
+  dise: string;
+  treatment: string;
+  note: string;
+  createdAt: Date;
+}

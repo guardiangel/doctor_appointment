@@ -18,11 +18,14 @@ const Login = ({ type, handleType }: Props) => {
   const handleSubmit = async (data: typeof initialValues) => {
     data.type = type;
 
-    const user = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/user`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    const user = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/user?userId=${data.userId}&password=${data.password}&type=${data.type}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        //body: JSON.stringify(data),
+      }
+    );
 
     user.json().then((result) => {
       if (result === null) {
