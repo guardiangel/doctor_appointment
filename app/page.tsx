@@ -44,7 +44,7 @@ export default function Home() {
                        bg-blue-500 hover:bg-red-500 text-white"
               onClick={() => setType("3")}
             >
-              User Login
+              Patient Login
             </button>
           </div>
         </div>

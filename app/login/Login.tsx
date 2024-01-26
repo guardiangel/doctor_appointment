@@ -1,6 +1,6 @@
 "use client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import * as yup from "yup";
 import { UserLoginStateContext, useUserContext } from "../context/UserContext";
 import MainPage from "../(shared)/MainPage";
@@ -67,7 +67,7 @@ const Login = ({ type, handleType }: Props) => {
                   } else if (type == "2") {
                     return <div>Doctor Login</div>;
                   } else if (type == "3") {
-                    return <div>User Login</div>;
+                    return <div>Patient Login</div>;
                   }
                 })()}
                 {/**userId */}

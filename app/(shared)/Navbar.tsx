@@ -26,7 +26,6 @@ const Navbar = () => {
           />
         </div>
       </div>
-      <hr className="border-1 mx-10" />
     </header>
   );
 };

@@ -6,7 +6,7 @@ const prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> =
 
 const users = [
   {
-    userId: "1000",
+    userId: "1001",
     password: "123456",
     userName: "admin",
     address: "unit 111, 18 Joe road, Toronto",
