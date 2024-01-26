@@ -21,7 +21,6 @@ export default function RootLayout({
     <html lang="en">
       {/** set up suppressHydrationWarning to avoid the error:Extra attributes from the server: data-new-gr-c-s-check-loaded,data-gr-ext-installed*/}
       <body className={openSans.className} suppressHydrationWarning={true}>
-        <Navbar />
         {children}
         {/* <Footer /> */}
       </body>

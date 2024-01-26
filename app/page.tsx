@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Login from "./login/Login";
+import Navbar from "./(shared)/Navbar";
 
 export default function Home() {
   //1 means admin, 2 means doctor, 3 means user
@@ -13,6 +14,7 @@ export default function Home() {
 
   return (
     <main className="px-10 leading-7">
+      <Navbar />
       {/**three login buttons */}
       {type == "" && (
         <div className="sm:grid grid-cols-3 grid-rows-3 gap-x-2 gap-y-2 my-5">
