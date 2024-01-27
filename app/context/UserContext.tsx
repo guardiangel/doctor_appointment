@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
-import { UserEntity } from "../interfaces/utils";
+import { UserLoginState } from "../interfaces/utils";
 
-export const UserLoginStateContext = createContext<UserEntity | undefined>(
+export const UserLoginStateContext = createContext<UserLoginState | undefined>(
   undefined
 );
 

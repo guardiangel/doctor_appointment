@@ -1,34 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useUserContext } from "../context/UserContext";
-import { TreatmentEntity, UserEntity } from "../interfaces/utils";
+import {
+  TreatmentEntity,
+  UserEntity,
+  UserLoginState,
+} from "../interfaces/utils";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { Treatment } from "@prisma/client";
 import moment from "moment";
 
 type Props = {};
 
 const ViewDetail = (props: Props) => {
-  const user: UserEntity = useUserContext();
-  const [treatmentHistorys, setTreatmentHistorys] =
-    useState<TreatmentEntity[]>();
+  const userLoginState: UserLoginState = useUserContext();
+
+  const [currentUser, setCurrentUser] = useState<UserEntity>();
 
   useEffect(() => {
-    getTreatMentHistoryByUserId(user.userId);
-  }, [user.userId]);
+    getUserInfoByUserId(userLoginState.id);
+  }, [userLoginState.id]);
 
-  const getTreatMentHistoryByUserId = async (userId: String) => {
-    const treatments = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/treatment?userId=${userId}`,
+  async function getUserInfoByUserId(id: String) {
+    const user = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/user?id=${id}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       }
     );
-    treatments.json().then((treatmentArray) => {
-      setTreatmentHistorys(treatmentArray);
+    await user.json().then((result) => {
+      console.log("result==", result);
+      setCurrentUser(result);
     });
-  };
+  }
 
   //handle submit event
   const handlePersonalSubmit = async (data: typeof initialUserValues) => {
@@ -39,21 +43,13 @@ const ViewDetail = (props: Props) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    user.json().then((result) => {
+    await user.json().then((result) => {
       if (result === null) {
         alert("The user doesn't exist in database.");
       } else {
+        setCurrentUser(result);
       }
     });
-  };
-
-  const initialUserValues = {
-    id: user.id,
-    userId: user.userId,
-    userName: user.userName,
-    address: user.address,
-    phone: user.phone,
-    email: user.email,
   };
 
   const updatePersonalInfoSchema = yup.object().shape({
@@ -64,12 +60,24 @@ const ViewDetail = (props: Props) => {
     email: yup.string().required("required"),
   });
 
+  const initialUserValues = {
+    id: currentUser?.id,
+    userId: currentUser?.userId,
+    userName: currentUser?.userName,
+    address: currentUser?.address,
+    phone: currentUser?.phone,
+    email: currentUser?.email,
+    treatments: currentUser?.treatments,
+  };
+
   return (
     <div>
       <Formik
         onSubmit={(e) => handlePersonalSubmit(e)}
         initialValues={initialUserValues}
         validationSchema={updatePersonalInfoSchema}
+        enableReinitialize={true}
+        key={Date.now()} //Must have the attribute. Otherwise, will get a disgusting error.
       >
         <Form>
           <div className="sm:grid grid-cols-1 grid-rows-2 gap-x-2 gap-y-2 my-5 text-center align-baseline">
@@ -143,20 +151,20 @@ const ViewDetail = (props: Props) => {
         <div>Dnote</div>
         <div>DateTime</div>
       </div>
-
-      <div className="sm:grid grid-cols-5 m-auto w-2/6 min-w-[20px] border-2">
-        {treatmentHistorys?.map((treatmentHistory) => (
-          <>
-            <div className="border-2">{treatmentHistory.userId}</div>
-            <div className="border-2">{treatmentHistory.dise}</div>
-            <div className="border-2">{treatmentHistory.treatment}</div>
-            <div className="border-2">{treatmentHistory.note}</div>
-            <div className="border-2">
-              {moment(treatmentHistory.createdAt).format("DD-MM-YYYY")}
-            </div>
-          </>
-        ))}
-      </div>
+      {currentUser?.treatments?.map((treatmentHistory: TreatmentEntity) => (
+        <div
+          className="sm:grid grid-cols-5 m-auto w-2/6 min-w-[20px] border-2"
+          key={treatmentHistory.id}
+        >
+          <div className="border-2">{treatmentHistory.userId}</div>
+          <div className="border-2">{treatmentHistory.dise}</div>
+          <div className="border-2">{treatmentHistory.treatment}</div>
+          <div className="border-2">{treatmentHistory.note}</div>
+          <div className="border-2">
+            {moment(treatmentHistory.createdAt).format("DD-MM-YYYY")}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

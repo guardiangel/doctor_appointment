@@ -4,7 +4,7 @@ import { useState } from "react";
 import * as yup from "yup";
 import { UserLoginStateContext, useUserContext } from "../context/UserContext";
 import MainPage from "../main/MainPage";
-import { UserEntity } from "../interfaces/utils";
+import { UserLoginState } from "../interfaces/utils";
 
 type Props = {
   type: string;
@@ -12,7 +12,9 @@ type Props = {
 };
 
 const Login = ({ type, handleType }: Props) => {
-  const [currentUser, setCurrentUser] = useState<UserEntity | null>(null);
+  const [currentUser, setCurrentLoginUser] = useState<UserLoginState | null>(
+    null
+  );
 
   //handle submit event
   const handleSubmit = async (data: typeof initialValues) => {
@@ -27,11 +29,16 @@ const Login = ({ type, handleType }: Props) => {
       }
     );
 
-    user.json().then((result) => {
+    await user.json().then((result) => {
       if (result === null) {
         alert("The user doesn't exist in database.");
       } else {
-        setCurrentUser(result);
+        setCurrentLoginUser(result);
+        const loginUserState = { userId: result?.userId, type: result?.type };
+        sessionStorage.setItem(
+          "loginUserState",
+          JSON.stringify(loginUserState)
+        );
       }
     });
   };

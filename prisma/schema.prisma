@@ -24,23 +24,23 @@ model Post {
 }
 
 model User {
-  id        String      @id @default(uuid())
-  userId    String      @unique
-  password  String
-  userName  String
-  address   String
-  phone     String
-  email     String
-  type      String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  treatment Treatment[]
+  id         String      @id @default(uuid())
+  userId     String      @unique
+  password   String
+  userName   String
+  address    String
+  phone      String
+  email      String
+  type       String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  treatments Treatment[]
 }
 
 model Treatment {
   id        String   @id @default(uuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [userId])
   dise      String
   treatment String
   note      String

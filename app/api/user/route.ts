@@ -4,16 +4,33 @@ import { NextResponse } from "next/server";
 
 ///api/user
 export async function GET(req: Request) {
+  let user: User | null;
+
   const { searchParams } = new URL(req.url);
   const obj = Object.fromEntries(searchParams.entries());
-  const { userId, password, type } = obj;
-  const user: User | null = await customPrisma.user.findFirst({
-    where: {
-      userId: userId,
-      password: password,
-      type: type,
-    },
-  });
+
+  if (obj.id) {
+    user = await customPrisma.user.findUnique({
+      where: {
+        id: obj.id,
+      },
+      include: {
+        treatments: true,
+      },
+    });
+  } else {
+    const { userId, password, type } = obj;
+    user = await customPrisma.user.findFirst({
+      where: {
+        userId: userId,
+        password: password,
+        type: type,
+      },
+      include: {
+        treatments: true,
+      },
+    });
+  }
 
   //Remove the password
   const formatUser = { ...user, password: "" };
@@ -41,6 +58,9 @@ export async function PATCH(req: Request) {
       id: id,
     },
     data,
+    include: {
+      treatments: true,
+    },
   });
 
   return NextResponse.json(updatedUser);

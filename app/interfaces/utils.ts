@@ -1,3 +1,9 @@
+export interface UserLoginState {
+  id: string;
+  userId: string;
+  type: string; //1 admin, 2 doctor, 3,patient
+}
+
 export interface UserEntity {
   id: string;
   userId: string;
@@ -7,6 +13,7 @@ export interface UserEntity {
   phone: string;
   email: string;
   type: string;
+  treatments: TreatmentEntity[];
 }
 
 export interface TreatmentEntity {
