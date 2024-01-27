@@ -1,14 +1,19 @@
-import Image from "next/image";
 import React from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 
 type Props = {
   type: string;
   handleOperation: (arg: string) => string;
 };
 
-const NavbarForLoginUser = ({ type, handleOperation }: Props) => {
+const Menu = ({ type, handleOperation }: Props) => {
+  const router = useRouter();
+  function forwardToLogin() {
+    router.push(`/`);
+  }
+
   return (
-    <header className="mb-1">
+    <div>
       {type == "1" && (
         <div className="sm:grid grid-cols-6 grid-rows-1 gap-x-1 gap-y-1 my-2 bg-blue-300">
           <div className="p-8">Add doctor</div>
@@ -39,12 +44,13 @@ const NavbarForLoginUser = ({ type, handleOperation }: Props) => {
           <div className="p-8">Cancel Booking</div>
           <div className="p-8">Search Doctor</div>
           <div className="p-8">Feedback</div>
-          <div className="p-8">Logout</div>
+          <div className="p-8" onClick={() => forwardToLogin()}>
+            Logout
+          </div>
         </div>
-      )}
-      <hr className="border-1 mx-10" />
-    </header>
+      )}{" "}
+    </div>
   );
 };
 
-export default NavbarForLoginUser;
+export default Menu;

@@ -43,8 +43,6 @@ export async function PATCH(req: Request) {
   const { id, userId, userName, address, phone, email, type } =
     await req.json();
 
-  console.log("parameter==", id, userId, userName, address, phone, email);
-
   const data = {
     userId: userId,
     userName: userName,

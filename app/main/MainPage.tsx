@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { useUserContext } from "../context/UserContext";
 import { UserLoginState } from "../interfaces/utils";
-import NavbarForLoginUser from "../(shared)/NavbarForLoginUser";
 import ViewDetail from "../(components)/ViewDetail";
+import Menu from "../(shared)/Menu";
 
 type Props = {};
 
@@ -20,7 +20,7 @@ const MainPage = (props: Props) => {
 
   return (
     <main>
-      <NavbarForLoginUser type={user?.type} handleOperation={handleOperation} />
+      <Menu type={user.type} handleOperation={handleOperation} />
       {user?.type === "3" && operation === "viewDetail" && <ViewDetail />}
     </main>
   );

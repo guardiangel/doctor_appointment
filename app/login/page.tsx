@@ -5,13 +5,20 @@ import * as yup from "yup";
 import { UserLoginStateContext, useUserContext } from "../context/UserContext";
 import MainPage from "../main/MainPage";
 import { UserLoginState } from "../interfaces/utils";
+import Navbar from "../(shared)/Navbar";
+import { useSearchParams, useRouter } from "next/navigation";
 
-type Props = {
-  type: string;
-  handleType: (arg: string) => string;
-};
+const Login = () => {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type") == null ? "" : searchParams.get("type");
 
-const Login = ({ type, handleType }: Props) => {
+  const router = useRouter();
+
+  //click cancel button
+  function cancelLogin() {
+    router.push("/");
+  }
+
   const [currentUser, setCurrentLoginUser] = useState<UserLoginState | null>(
     null
   );
@@ -19,7 +26,6 @@ const Login = ({ type, handleType }: Props) => {
   //handle submit event
   const handleSubmit = async (data: typeof initialValues) => {
     data.type = type;
-
     const user = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/user?userId=${data.userId}&password=${data.password}&type=${data.type}`,
       {
@@ -28,17 +34,11 @@ const Login = ({ type, handleType }: Props) => {
         //body: JSON.stringify(data),
       }
     );
-
     await user.json().then((result) => {
       if (result === null) {
         alert("The user doesn't exist in database.");
       } else {
         setCurrentLoginUser(result);
-        const loginUserState = { userId: result?.userId, type: result?.type };
-        sessionStorage.setItem(
-          "loginUserState",
-          JSON.stringify(loginUserState)
-        );
       }
     });
   };
@@ -47,7 +47,7 @@ const Login = ({ type, handleType }: Props) => {
     userId: "",
     password: "",
     //used to confirm which type of user login
-    type: "",
+    type: type,
   };
 
   const loginSchema = yup.object().shape({
@@ -64,6 +64,7 @@ const Login = ({ type, handleType }: Props) => {
         </UserLoginStateContext.Provider>
       ) : (
         <div>
+          <Navbar />
           <Formik
             onSubmit={(e) => handleSubmit(e)}
             initialValues={initialValues}
@@ -73,11 +74,11 @@ const Login = ({ type, handleType }: Props) => {
               <div className="sm:grid grid-cols-1 grid-rows-2 gap-x-2 gap-y-2 my-5 text-center align-baseline">
                 {(() => {
                   if (type == "1") {
-                    return <div>Admin Login</div>;
+                    return <div>Admin Login 1001/123456</div>;
                   } else if (type == "2") {
-                    return <div>Doctor Login</div>;
+                    return <div>Doctor Login 2001/123456</div>;
                   } else if (type == "3") {
-                    return <div>Patient Login</div>;
+                    return <div>Patient Login 3001/123456</div>;
                   }
                 })()}
                 {/**userId */}
@@ -108,7 +109,7 @@ const Login = ({ type, handleType }: Props) => {
                   <button
                     className="w-20 h-10 bg-blue-500"
                     type="button"
-                    onClick={() => handleType("")}
+                    onClick={() => cancelLogin()}
                   >
                     Cancel
                   </button>

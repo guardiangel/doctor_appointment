@@ -1,8 +1,10 @@
 import Image from "next/image";
 import React from "react";
 import Ad1 from "public/assets/ad-1.jpg";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   return (
     <header className="mb-5">
       <nav className="flex justify-between items-center w-full bg-wh-900 text-wh-10 px-10"></nav>
@@ -26,6 +28,8 @@ const Navbar = () => {
           />
         </div>
       </div>
+
+      <hr className="border-1 mx-10" />
     </header>
   );
 };
