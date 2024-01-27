@@ -8,7 +8,7 @@ export const UserLoginStateContext = createContext<UserEntity | undefined>(
 export function useUserContext() {
   const user = useContext(UserLoginStateContext);
   if (user === undefined) {
-    throw new Error("useUserContext must be used with a DashboardContext");
+    throw new Error("useUserContext must be used with a UserLoginStateContext");
   }
   return user;
 }

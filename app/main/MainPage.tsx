@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useUserContext } from "../context/UserContext";
 import { UserEntity } from "../interfaces/utils";
-import NavbarForLoginUser from "./NavbarForLoginUser";
+import NavbarForLoginUser from "../(shared)/NavbarForLoginUser";
 import ViewDetail from "../(components)/ViewDetail";
 
 type Props = {};

@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useState } from "react";
 import * as yup from "yup";
 import { UserLoginStateContext, useUserContext } from "../context/UserContext";
-import MainPage from "../(shared)/MainPage";
+import MainPage from "../main/MainPage";
 import { UserEntity } from "../interfaces/utils";
 
 type Props = {
