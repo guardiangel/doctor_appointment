@@ -5,12 +5,32 @@ import * as yup from "yup";
 type Props = {};
 
 const SearchDoctor = (props: Props) => {
+  console.log("aaaaaaaaaaa.....");
   const [categories, setCategories] = useState();
+  const [maxAppointment, setMaxAppointment] = useState();
 
   useEffect(() => {
     //get the category
-    getAllCategory();
+    //getAllCategory();
+    getMaxAppointmentId();
   }, []);
+
+  //get the max appointment id
+  async function getMaxAppointmentId() {
+    console.log("searchdoctor.....");
+    const appointment = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/appointment?getMaxFlag=getMaxFlag`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    await appointment.json().then((result) => {
+      setMaxAppointment(
+        result[0].appointmentId === null ? 0 : result[0].appointmentId
+      );
+    });
+  }
 
   async function getAllCategory() {
     const categories = await fetch(
@@ -71,7 +91,7 @@ const SearchDoctor = (props: Props) => {
       >
         <Form>
           <div className="sm:grid grid-cols-1 grid-rows-2 gap-x-2 gap-y-2 my-5 text-center align-baseline">
-            <div className="text-center">Details</div>
+            <div className="text-center">Search Doctor</div>
             {/**userId */}
             <div>
               <label htmlFor="inputUserId">User Id:</label>

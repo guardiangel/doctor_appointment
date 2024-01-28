@@ -27,9 +27,10 @@ const MainPage = (props: Props) => {
     return "";
   };
 
-  const [operation, setOperation] = useState(getDefaultOperation);
+  const [operation, setOperation] = useState("");
 
   const handleOperation = (operationAction: string) => {
+    console.log("handleoperation.....");
     setOperation(operationAction);
     return operationAction;
   };
@@ -38,8 +39,8 @@ const MainPage = (props: Props) => {
     <main>
       <Navbar />
       <Menu type={user.type} handleOperation={handleOperation} />
-      {user?.type === "3" && operation === "viewDetail" && <ViewDetail />}
       {user?.type === "3" && operation === "searchDoctor" && <SearchDoctor />}
+      {user?.type === "3" && operation === "viewDetail" && <ViewDetail />}
     </main>
   );
 };
