@@ -25,3 +25,22 @@ export interface TreatmentEntity {
   note: string;
   createdAt: Date;
 }
+
+export interface CategoryEntity {
+  id: string;
+  categoryValue: string;
+  categoryName: string;
+}
+export interface TimeslotEntity {
+  id: string;
+  timeSlotOrder: number;
+  timeSlotValue: string;
+}
+export interface AppointmentEntity {
+  id: string;
+  appointmentId: number;
+  userId: string;
+  categoryId: string;
+  timeSlotValue: string;
+  appointmentDate: string;
+}

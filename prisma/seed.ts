@@ -36,12 +36,14 @@ const users = [
 
 const treatments = [
   {
+    appointmentId: 1,
     userId: "3001",
     dise: "Bone",
     treatment: "Pills",
     note: "Normal",
   },
   {
+    appointmentId: 2,
     userId: "3001",
     dise: "ABC",
     treatment: "Operations",
@@ -86,58 +88,76 @@ const categories = [
 
 const timeslots = [
   {
+    timeSlotOrder: 1,
     timeSlotValue: "9:00 - 9:30",
   },
   {
+    timeSlotOrder: 2,
     timeSlotValue: "9:30 - 10:00",
   },
   {
+    timeSlotOrder: 3,
     timeSlotValue: "10:00 - 10:30",
   },
   {
+    timeSlotOrder: 4,
     timeSlotValue: "10:30 - 11:00",
   },
   {
+    timeSlotOrder: 5,
     timeSlotValue: "11:00 - 11:30",
   },
   {
+    timeSlotOrder: 6,
     timeSlotValue: "11:30 - 12:00",
   },
   {
+    timeSlotOrder: 7,
     timeSlotValue: "1:30 - 2:00",
   },
   {
+    timeSlotOrder: 8,
     timeSlotValue: "2:00 - 2:30",
   },
   {
+    timeSlotOrder: 9,
     timeSlotValue: "2:30 - 3:00",
   },
   {
+    timeSlotOrder: 10,
     timeSlotValue: "3:00 - 3:30",
   },
   {
+    timeSlotOrder: 11,
     timeSlotValue: "3:30 - 4:00",
   },
   {
+    timeSlotOrder: 12,
     timeSlotValue: "4:00 - 4:30",
   },
 
   {
+    timeSlotOrder: 13,
     timeSlotValue: "6:00 - 6:30",
   },
   {
+    timeSlotOrder: 14,
     timeSlotValue: "6:30 - 7:00",
   },
   {
+    timeSlotOrder: 15,
     timeSlotValue: "7:00 - 7:30",
   },
   {
+    timeSlotOrder: 16,
     timeSlotValue: "7:30 - 8:00",
   },
   {
+    timeSlotOrder: 17,
     timeSlotValue: "8:00 - 8:30",
   },
   {
+    timeSlotOrder: 18,
     timeSlotValue: "8:30 - 9:00",
   },
 ];

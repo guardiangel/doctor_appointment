@@ -30,7 +30,6 @@ const MainPage = (props: Props) => {
   const [operation, setOperation] = useState("");
 
   const handleOperation = (operationAction: string) => {
-    console.log("handleoperation.....");
     setOperation(operationAction);
     return operationAction;
   };

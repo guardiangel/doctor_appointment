@@ -1,4 +1,4 @@
-import { Appointment, Category } from "@prisma/client";
+import { Appointment } from "@prisma/client";
 import { customPrisma } from "../prismaClient";
 import { NextResponse } from "next/server";
 
@@ -8,10 +8,17 @@ export async function GET(req: Request) {
   const obj = Object.fromEntries(searchParams.entries());
 
   if (obj.getMaxFlag) {
-    const appointmentId: String =
-      await customPrisma.$queryRaw<String>`select MAX(appointmentId) appointmentId from appointment`;
+    const appointmentId: Number[] = await customPrisma.$queryRaw<
+      Number[]
+    >`select MAX(appointmentId) appointmentId from appointment`;
 
     return NextResponse.json(appointmentId);
+  } else if (obj.getConfirmedAppointment) {
+    const appointments: Appointment[] | null =
+      await customPrisma.appointment.findMany({
+        where: { userId: obj.userId, appointmentDate: obj.appointmentDate },
+      });
+    return NextResponse.json(appointments);
   }
 
   return NextResponse.json(null);

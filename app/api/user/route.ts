@@ -18,6 +18,17 @@ export async function GET(req: Request) {
         treatments: true,
       },
     });
+  } else if (obj.searchAllDoctor) {
+    //get all the doctors
+    let doctor: User[] | null = await customPrisma.user.findMany({
+      where: {
+        type: "2",
+      },
+      include: {
+        treatments: true,
+      },
+    });
+    return NextResponse.json(doctor);
   } else {
     const { userId, password, type } = obj;
     user = await customPrisma.user.findFirst({
