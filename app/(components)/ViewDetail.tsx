@@ -22,7 +22,7 @@ const ViewDetail = (props: Props) => {
 
   async function getUserInfoByUserId(id: String) {
     const user = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/user?id=${id}`,
+      `${process.env.NEXT_PUBLIC_URL}/api/user?viewPersonalFlag=viewPersonalFlag&id=${id}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },

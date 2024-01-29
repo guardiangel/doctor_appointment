@@ -9,7 +9,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const obj = Object.fromEntries(searchParams.entries());
 
-  if (obj.id) {
+  if (obj.viewPersonalFlag) {
     user = await customPrisma.user.findUnique({
       where: {
         id: obj.id,
@@ -29,6 +29,22 @@ export async function GET(req: Request) {
       },
     });
     return NextResponse.json(doctor);
+  } else if (obj.viewCustomer) {
+    //view customer page,get all the customer(patients)
+    const users: User[] = await customPrisma.user.findMany({
+      where: {
+        type: "3",
+      },
+    });
+    return NextResponse.json(users);
+  } else if (obj.viewSingleCustomer) {
+    //view customer page,get one customer(patients)
+    const users: User[] = await customPrisma.user.findMany({
+      where: {
+        type: "3",
+      },
+    });
+    return NextResponse.json(users);
   } else {
     const { userId, password, type } = obj;
     user = await customPrisma.user.findFirst({

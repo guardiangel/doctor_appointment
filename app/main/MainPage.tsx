@@ -6,6 +6,7 @@ import ViewDetail from "../(components)/ViewDetail";
 import Menu from "../(shared)/Menu";
 import Navbar from "../(shared)/Navbar";
 import SearchDoctor from "../(components)/SearchDoctor";
+import ViewCustomer from "../(components)/ViewCustomer";
 
 type Props = {};
 
@@ -20,7 +21,7 @@ const MainPage = (props: Props) => {
       case "1":
         return "";
       case "2":
-        return "";
+        return "viewCustomer";
       case "3":
         return "searchDoctor";
     }
@@ -40,6 +41,7 @@ const MainPage = (props: Props) => {
       <Menu type={user.type} handleOperation={handleOperation} />
       {user?.type === "3" && operation === "searchDoctor" && <SearchDoctor />}
       {user?.type === "3" && operation === "viewDetail" && <ViewDetail />}
+      {user?.type === "2" && operation === "viewCustomer" && <ViewCustomer />}
     </main>
   );
 };

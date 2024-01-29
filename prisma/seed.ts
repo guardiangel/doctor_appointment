@@ -13,6 +13,8 @@ const users = [
     phone: "1111111111",
     email: "admin@gmail.com",
     type: "1",
+    gender: "Male",
+    age: 45,
   },
   {
     userId: "2001",
@@ -22,6 +24,8 @@ const users = [
     phone: "9999999999",
     email: "doctor1@gmail.com",
     type: "2",
+    gender: "Male",
+    age: 33,
   },
   {
     userId: "3001",
@@ -31,6 +35,19 @@ const users = [
     phone: "3333333333",
     email: "user1@gmail.com",
     type: "3",
+    gender: "Male",
+    age: 21,
+  },
+  {
+    userId: "3002",
+    password: "123456",
+    userName: "user2",
+    address: "unit 987, 8988 xxx Ave, Toronto",
+    phone: "55555",
+    email: "user2@gmail.com",
+    type: "3",
+    gender: "Female",
+    age: 48,
   },
 ];
 

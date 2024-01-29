@@ -13,6 +13,8 @@ export interface UserEntity {
   phone: string;
   email: string;
   type: string;
+  gender: string;
+  age: string;
   treatments: TreatmentEntity[];
 }
 
