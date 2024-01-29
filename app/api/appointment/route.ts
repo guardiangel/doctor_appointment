@@ -16,10 +16,36 @@ export async function GET(req: Request) {
   } else if (obj.getConfirmedAppointment) {
     const appointments: Appointment[] | null =
       await customPrisma.appointment.findMany({
-        where: { userId: obj.userId, appointmentDate: obj.appointmentDate },
+        where: { doctorId: obj.userId, appointmentDate: obj.appointmentDate },
       });
     return NextResponse.json(appointments);
   }
 
   return NextResponse.json(null);
+}
+
+export async function POST(req: Request) {
+  const {
+    appointmentId,
+    category,
+    doctor,
+    appointmentDate,
+    timeslot,
+    patientId,
+  } = await req.json();
+
+  const data = {
+    appointmentId: appointmentId,
+    doctorId: doctor,
+    patientId: patientId,
+    categoryId: category,
+    timeSlotValue: timeslot,
+    appointmentDate: appointmentDate,
+  };
+
+  const createAppoinment = await customPrisma.appointment.create({
+    data,
+  });
+
+  return NextResponse.json(createAppoinment);
 }

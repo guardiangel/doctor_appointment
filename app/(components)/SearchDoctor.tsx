@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as yup from "yup";
 import {
   AppointmentEntity,
   CategoryEntity,
   TimeslotEntity,
   UserEntity,
+  UserLoginState,
 } from "../interfaces/utils";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TimeSlot from "./TimeSlot";
-import moment from "moment";
+import moment, { months } from "moment";
+import { useUserContext } from "../context/UserContext";
 type Props = {};
 
 const SearchDoctor = (props: Props) => {
+  const currentUser: UserLoginState = useUserContext();
+
   const [categories, setCategories] = useState<CategoryEntity[]>();
   const [doctors, setDoctors] = useState<UserEntity[]>();
   const [maxAppointmentId, setMaxAppointmentId] = useState();
 
   //get the confirmed appointment regarding one doctor and date
-  const [preConfirmedAppointments, setPreConfiredAppointments] =
-    useState<AppointmentEntity[]>();
+  const [preConfirmedAppointments, setPreConfiredAppointments] = useState<
+    AppointmentEntity[]
+  >([]);
 
   //all time slots
   const [allTimeSlots, setAlTimeSlots] = useState<TimeslotEntity[]>([]);
@@ -29,26 +33,31 @@ const SearchDoctor = (props: Props) => {
   const [appointmentDate, setAppointmentDate] = useState<string>(
     moment(new Date()).format("YYYY-MM-DD")
   );
-  const [selectedCategory, setSelectedCategory] = useState();
-  const [selectedDoctorId, setSelectedDoctorId] = useState();
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedDoctorId, setSelectedDoctorId] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>();
 
   const [checkTimeSlotFlag, setCheckTimeSlotFlag] = useState(false);
+
+  //if refresh the current page
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   useEffect(() => {
     getAllTimeslots();
     searchAllDoctor();
     getAllCategory();
     getMaxAppointmentId();
-  }, []);
+  }, [refreshFlag]);
 
   //choose an appointment data
   const handleSelectedDate = async () => {
-    console.log("appoinment", appointmentDate, selectedDoctorId);
-    if (appointmentDate && selectedDoctorId) {
+    const formateDate = moment(appointmentDate).format("YYYY-MM-DD");
+    console.log("formateDate", formateDate, selectedDoctorId);
+
+    if (appointmentDate && selectedDoctorId && selectedCategory) {
       //get all the appointments of the current doctor in the current date
       const appointments = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/appointment?getConfirmedAppointment=getConfirmedAppointment&userId=${selectedDoctorId}&appointmentDate=${appointmentDate}`,
+        `${process.env.NEXT_PUBLIC_URL}/api/appointment?getConfirmedAppointment=getConfirmedAppointment&userId=${selectedDoctorId}&appointmentDate=${formateDate}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -61,7 +70,7 @@ const SearchDoctor = (props: Props) => {
       //set up the check flag
       setCheckTimeSlotFlag(true);
     } else {
-      window.alert("Please choose one doctor and choose one date");
+      window.alert("Please choose category,doctor, and date");
     }
   };
 
@@ -75,9 +84,7 @@ const SearchDoctor = (props: Props) => {
       }
     );
     await appointments.json().then((result) => {
-      setMaxAppointmentId(
-        result[0].appointmentId === null ? 1 : result[0].appointmentId
-      );
+      setPreConfiredAppointments(result);
     });
   }
 
@@ -97,7 +104,7 @@ const SearchDoctor = (props: Props) => {
     );
     await appointment.json().then((result) => {
       setMaxAppointmentId(
-        result[0].appointmentId === null ? 1 : result[0].appointmentId
+        result[0].appointmentId === null ? 1 : result[0].appointmentId + 1
       );
     });
   }
@@ -126,7 +133,6 @@ const SearchDoctor = (props: Props) => {
       }
     );
     await timeslots.json().then((result) => {
-      console.log("timeslots...", result);
       setAlTimeSlots(result);
     });
   }
@@ -147,44 +153,47 @@ const SearchDoctor = (props: Props) => {
 
   const initialSearchDoctorValues = {
     appointmentId: maxAppointmentId,
-    category: "",
+    category: selectedCategory,
     doctor: selectedDoctorId,
-    date: "",
+    appointmentDate: appointmentDate, //format to string type when submitting
+    timeslot: selectedTimeSlot,
+    patientId: currentUser.userId,
   };
 
-  const updatePersonalInfoSchema = yup.object().shape({
-    appointmentId: yup.string().required("required"),
-    // category: yup.string().required("required"),
-    // doctor: yup.string().required("required"),
-    // date: yup.string().required("required"),
-  });
-
   //handle submit event
-  const handlePersonalSubmit = async (
+  const handleAppointmentSubmit = async (
     data: typeof initialSearchDoctorValues
   ) => {
-    // //data.id = user.id; //compose Id for update
-    // console.log("view detail data=", data);
-    // const user = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/user`, {
-    //   method: "PATCH",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(data),
-    // });
-    // await user.json().then((result) => {
-    //   if (result === null) {
-    //     alert("The user doesn't exist in database.");
-    //   } else {
-    //     setCurrentUser(result);
-    //   }
-    // });
+    console.log("submit data=", data);
+
+    const appointment = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/appointment`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
+    await appointment.json().then((result) => {
+      if (result === null) {
+        window.alert("Can't add the appointment, please contact the admin.");
+      } else {
+        console.log("created appointment", result);
+        setRefreshFlag(true);
+        setSelectedCategory("");
+        setSelectedDoctorId("");
+        setAppointmentDate(moment(new Date()).format("YYYY-MM-DD"));
+        setCheckTimeSlotFlag(false);
+        window.alert("Add appointment successfully.");
+      }
+    });
   };
 
   return (
     <div>
       <Formik
-        onSubmit={(e) => handlePersonalSubmit(e)}
+        onSubmit={(e) => handleAppointmentSubmit(e)}
         initialValues={initialSearchDoctorValues}
-        validationSchema={updatePersonalInfoSchema}
         enableReinitialize={true}
         key={Date.now()} //Must have the attribute. Otherwise, will get a disgusting error.
       >
@@ -213,6 +222,7 @@ const SearchDoctor = (props: Props) => {
                 // multiple={true}
                 className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
               >
+                <option value="">Please choose a category</option>
                 {categories?.map((category) => (
                   <option
                     key={category.categoryValue}
@@ -252,9 +262,10 @@ const SearchDoctor = (props: Props) => {
               <DatePicker
                 id="selectedDate"
                 name="selectedDate"
+                minDate={new Date()}
                 selected={moment(appointmentDate, "YYYY-MM-DD").toDate()}
                 onChange={(date: any) => setAppointmentDate(date)}
-                dateFormat="YYYY-MM-DD" // Customize the date format as needed
+                dateFormat="yyyy-MM-dd" // Customize the date format as needed
                 className="text-center align-middle w-full min-w-[50px] px-5 py-2 border-2"
               />
               <ErrorMessage name="date" component="span" />
@@ -275,7 +286,16 @@ const SearchDoctor = (props: Props) => {
               <TimeSlot
                 allTimeSlots={allTimeSlots}
                 preConfirmedAppointments={preConfirmedAppointments}
+                handleChooseTimeSlot={handleChooseTimeSlot}
               />
+            )}
+            {/**book button */}
+            {checkTimeSlotFlag && (
+              <div className="sm:grid grid-cols-2 m-auto gap-12 ">
+                <button className="w-20 h-10 bg-blue-500" type="submit">
+                  Book
+                </button>
+              </div>
             )}
           </div>
         </Form>

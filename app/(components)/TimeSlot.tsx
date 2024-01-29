@@ -4,9 +4,14 @@ import { AppointmentEntity, TimeslotEntity } from "../interfaces/utils";
 type Props = {
   allTimeSlots: TimeslotEntity[];
   preConfirmedAppointments: AppointmentEntity[];
+  handleChooseTimeSlot: (timeslot: string) => string;
 };
 
-const TimeSlot = ({ allTimeSlots, preConfirmedAppointments }: Props) => {
+const TimeSlot = ({
+  allTimeSlots,
+  preConfirmedAppointments,
+  handleChooseTimeSlot,
+}: Props) => {
   const rowCount = Math.ceil(allTimeSlots.length / 6);
   const timeSlotsTwoDimension = Array.from(
     { length: rowCount },
@@ -35,8 +40,9 @@ const TimeSlot = ({ allTimeSlots, preConfirmedAppointments }: Props) => {
                   </div>
                 ) : (
                   <div
-                    className="border-2 mt-8 space-x-5 space-y-10 text-xl"
+                    className="border-2 mt-8 space-x-5 space-y-10 text-xl hover:bg-green-500"
                     key={cellIndex}
+                    onClick={() => handleChooseTimeSlot(timeSlot.timeSlotValue)}
                   >
                     {timeSlot.timeSlotValue}
                   </div>
