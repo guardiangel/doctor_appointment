@@ -19,6 +19,17 @@ export async function GET(req: Request) {
         where: { doctorId: obj.userId, appointmentDate: obj.appointmentDate },
       });
     return NextResponse.json(appointments);
+  } else if (obj.viewBookingFlag) {
+    //query booking history
+    const appointments: Appointment[] | null =
+      await customPrisma.appointment.findMany({
+        where: { patientId: obj.userId },
+        include: {
+          doctor: true,
+        },
+      });
+    console.log("viewBookingFlag appointments", appointments);
+    return NextResponse.json(appointments);
   }
 
   return NextResponse.json(null);

@@ -41,8 +41,10 @@ export interface TimeslotEntity {
 export interface AppointmentEntity {
   id: string;
   appointmentId: number;
-  userId: string;
+  patientId: string;
+  doctorId: string;
   categoryId: string;
   timeSlotValue: string;
   appointmentDate: string;
+  doctor: UserEntity;
 }
