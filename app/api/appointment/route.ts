@@ -60,3 +60,25 @@ export async function POST(req: Request) {
 
   return NextResponse.json(createAppoinment);
 }
+
+export async function DELETE(req: Request) {
+  const { appointmentId } = await req.json();
+
+  const numAppointmentId = parseInt(appointmentId);
+
+  try {
+    console.log("appointmentId delete=", appointmentId);
+    const deleteAppointment = await customPrisma.appointment.delete({
+      where: {
+        appointmentId: numAppointmentId,
+      },
+    });
+
+    console.log("deleteAppointment=", deleteAppointment);
+
+    return NextResponse.json(deleteAppointment);
+  } catch (err) {
+    console.log("err=", err);
+    return NextResponse.json(null);
+  }
+}

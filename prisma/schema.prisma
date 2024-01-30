@@ -42,16 +42,16 @@ model User {
 }
 
 model Treatment {
-  id            String      @id @default(uuid())
+  id            String       @id @default(uuid())
   patientId     String
-  patient       User        @relation(fields: [patientId], references: [userId])
-  appointmentId Int         @unique
-  appoinment    Appointment @relation(fields: [appointmentId], references: [appointmentId])
+  patient       User         @relation(fields: [patientId], references: [userId])
+  appointmentId Int          @unique
+  appoinment    Appointment? @relation(fields: [appointmentId], references: [appointmentId])
   dise          String
   treatment     String
   note          String
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
   @@index([patientId])
 }

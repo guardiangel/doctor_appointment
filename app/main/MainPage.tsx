@@ -8,6 +8,7 @@ import Navbar from "../(shared)/Navbar";
 import SearchDoctor from "../(components)/SearchDoctor";
 import ViewCustomer from "../(components)/ViewCustomer";
 import ViewBooking from "../(components)/ViewBooking";
+import CancelBooking from "../(components)/CancelBooking";
 
 type Props = {};
 
@@ -43,6 +44,7 @@ const MainPage = (props: Props) => {
       {user?.type === "3" && operation === "searchDoctor" && <SearchDoctor />}
       {user?.type === "3" && operation === "viewDetail" && <ViewDetail />}
       {user?.type === "3" && operation === "viewBooking" && <ViewBooking />}
+      {user?.type === "3" && operation === "cancelBooking" && <CancelBooking />}
       {user?.type === "2" && operation === "viewCustomer" && <ViewCustomer />}
     </main>
   );

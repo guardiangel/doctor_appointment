@@ -156,7 +156,7 @@ const ViewDetail = (props: Props) => {
           className="sm:grid grid-cols-5 m-auto w-2/6 min-w-[20px] border-2"
           key={treatmentHistory.id}
         >
-          <div className="border-2">{treatmentHistory.userId}</div>
+          <div className="border-2">{treatmentHistory.patientId}</div>
           <div className="border-2">{treatmentHistory.dise}</div>
           <div className="border-2">{treatmentHistory.treatment}</div>
           <div className="border-2">{treatmentHistory.note}</div>
