@@ -36,7 +36,7 @@ const TimeSlot = ({
                     className="border-2 mt-8 space-x-5 space-y-10 text-xl bg-red-500"
                     key={cellIndex}
                   >
-                    {timeSlot.timeSlotValue}
+                    {timeSlot.timeSlotValue}(Occupied)
                   </div>
                 ) : (
                   <div

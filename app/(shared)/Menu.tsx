@@ -33,7 +33,9 @@ const Menu = ({ type, handleOperation }: Props) => {
           <div className="p-8">Add Description</div>
           <div className="p-8">My Details</div>
           <div className="p-8">Search Doctor</div>
-          <div className="p-8">Logout</div>
+          <div className="p-8" onClick={() => forwardToLogin()}>
+            Logout
+          </div>
         </div>
       )}
       {type == "3" && (
@@ -42,7 +44,9 @@ const Menu = ({ type, handleOperation }: Props) => {
             My Details
           </div>
           <div className="p-8">Book Appointment</div>
-          <div className="p-8">View Bookings</div>
+          <div className="p-8" onClick={() => handleOperation("viewBooking")}>
+            View Bookings
+          </div>
           <div className="p-8">Cancel Booking</div>
           <div className="p-8" onClick={() => handleOperation("searchDoctor")}>
             Search Doctor

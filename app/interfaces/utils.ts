@@ -20,8 +20,8 @@ export interface UserEntity {
 
 export interface TreatmentEntity {
   id: string;
-  userId: string;
-  userName: string;
+  patientId: string;
+  appointmentId: string;
   dise: string;
   treatment: string;
   note: string;

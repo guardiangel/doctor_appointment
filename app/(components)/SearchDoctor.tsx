@@ -31,7 +31,7 @@ const SearchDoctor = (props: Props) => {
 
   //data waited to be submitted
   const [appointmentDate, setAppointmentDate] = useState<string>(
-    moment(new Date()).format("YYYY-MM-DD")
+    moment(new Date()).format("YYYY-MM-DD").toString()
   );
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedDoctorId, setSelectedDoctorId] = useState("");
@@ -164,6 +164,8 @@ const SearchDoctor = (props: Props) => {
   const handleAppointmentSubmit = async (
     data: typeof initialSearchDoctorValues
   ) => {
+    const formateDate = moment(appointmentDate).format("YYYY-MM-DD");
+    console.log("formateDate", formateDate, selectedDoctorId);
     console.log("submit data=", data);
 
     const appointment = await fetch(
@@ -182,7 +184,7 @@ const SearchDoctor = (props: Props) => {
         setRefreshFlag(true);
         setSelectedCategory("");
         setSelectedDoctorId("");
-        setAppointmentDate(moment(new Date()).format("YYYY-MM-DD"));
+        setAppointmentDate(moment(new Date()).format("YYYY-MM-DD").toString());
         setCheckTimeSlotFlag(false);
         window.alert("Add appointment successfully.");
       }

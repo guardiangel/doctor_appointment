@@ -41,7 +41,10 @@ export async function GET(req: Request) {
     //view customer page,get one customer(patients)
     const users: User[] = await customPrisma.user.findMany({
       where: {
-        type: "3",
+        userId: obj.userId,
+      },
+      include: {
+        treatments: true,
       },
     });
     return NextResponse.json(users);

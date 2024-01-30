@@ -54,14 +54,14 @@ const users = [
 const treatments = [
   {
     appointmentId: 1,
-    userId: "3001",
+    patientId: "3001",
     dise: "Bone",
     treatment: "Pills",
     note: "Normal",
   },
   {
     appointmentId: 2,
-    userId: "3001",
+    patientId: "3001",
     dise: "ABC",
     treatment: "Operations",
     note: "Minor Operation",
