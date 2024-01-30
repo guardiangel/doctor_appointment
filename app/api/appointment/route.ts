@@ -68,6 +68,17 @@ export async function DELETE(req: Request) {
 
   try {
     console.log("appointmentId delete=", appointmentId);
+
+    const treatment = await customPrisma.treatment.findUnique({
+      where: {
+        appointmentId: numAppointmentId,
+      },
+    });
+
+    if (treatment != null) {
+      return NextResponse.json({ message: "Have treatment, can't delete" });
+    }
+
     const deleteAppointment = await customPrisma.appointment.delete({
       where: {
         appointmentId: numAppointmentId,
@@ -78,7 +89,6 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json(deleteAppointment);
   } catch (err) {
-    console.log("err=", err);
-    return NextResponse.json(null);
+    return NextResponse.json({ message: err });
   }
 }
