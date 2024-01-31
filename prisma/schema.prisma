@@ -35,7 +35,7 @@ model User {
   gender              String
   age                 Int
   categoryId          String
-  category            Category      @relation(fields: [categoryId], references: [id])
+  category            Category      @relation(fields: [categoryId], references: [categoryValue])
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
   patientAppointments Appointment[] @relation("patientAppointments")

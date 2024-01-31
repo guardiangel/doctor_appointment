@@ -16,6 +16,8 @@ export interface UserEntity {
   gender: string;
   age: string;
   treatments: TreatmentEntity[];
+  categoryId: string;
+  category: CategoryEntity;
 }
 
 export interface TreatmentEntity {

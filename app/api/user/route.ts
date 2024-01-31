@@ -1,5 +1,5 @@
 import { customPrisma } from "../prismaClient";
-import { User } from "@prisma/client";
+import { Category, User } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 ///api/user
@@ -47,6 +47,52 @@ export async function GET(req: Request) {
         treatments: true,
       },
     });
+    return NextResponse.json(users);
+  } else if (obj.searchDoctorByConditions) {
+    let users: User[] = [];
+    //Patient searches doctors by name, category, or address.
+    //  //1 by name, 2 by categoryId, 3 by address
+    switch (obj.searchOptionValue) {
+      case "1": //search based on doctor's name
+        users = await customPrisma.user.findMany({
+          where: {
+            userName: obj.doctorName,
+            type: "2", //2 means doctor
+          },
+          include: {
+            category: true,
+          },
+        });
+
+        break;
+
+      case "2": //search based on doctor's category
+        users = await customPrisma.user.findMany({
+          where: {
+            categoryId: obj.categoryId,
+            type: "2", //2 means doctor
+          },
+          include: {
+            category: true,
+          },
+        });
+        console.log("user2===", users);
+        break;
+      case "3": //search based on doctor's address
+        users = await customPrisma.user.findMany({
+          where: {
+            address: {
+              contains: obj.doctorAddress,
+            },
+            type: "2", //2 means doctor
+          },
+          include: {
+            category: true,
+          },
+        });
+        break;
+    }
+
     return NextResponse.json(users);
   } else {
     const { userId, password, type } = obj;
