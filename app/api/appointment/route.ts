@@ -20,6 +20,7 @@ export async function GET(req: Request) {
       await customPrisma.appointment.findMany({
         where: { doctorId: obj.userId, appointmentDate: obj.appointmentDate },
       });
+
     return NextResponse.json(appointments);
   } else if (obj.viewBookingFlag) {
     //query booking history
@@ -30,7 +31,36 @@ export async function GET(req: Request) {
           doctor: true,
         },
       });
-    console.log("viewBookingFlag appointments", appointments);
+
+    return NextResponse.json(appointments);
+  } else if (obj.viewMyAppointmentsFlag) {
+    //eliminate the appointments that have been treated already.
+    const appointments: Appointment[] | null =
+      await customPrisma.appointment.findMany({
+        where: {
+          doctorId: obj.doctorId,
+          NOT: {
+            appointmentId: {
+              in: await customPrisma.treatment
+                .findMany({
+                  select: {
+                    appointmentId: true,
+                  },
+                })
+                .then((data) =>
+                  data.map((item) => {
+                    return item.appointmentId;
+                  })
+                ),
+            },
+          },
+        },
+        include: {
+          patient: true,
+        },
+      });
+
+    console.log("viewMyAppointmentsFlag appointments", appointments);
     return NextResponse.json(appointments);
   }
 

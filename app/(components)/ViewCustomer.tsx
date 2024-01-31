@@ -31,7 +31,6 @@ const ViewCustomer = (props: Props) => {
   }
 
   const handleSearch = async () => {
-    console.log("handlesearch");
     const user = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/user?viewSingleCustomer=viewSingleCustomer&userId=${custId}`,
       {

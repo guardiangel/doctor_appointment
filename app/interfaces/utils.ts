@@ -49,6 +49,7 @@ export interface AppointmentEntity {
   timeSlotValue: string;
   appointmentDate: string;
   doctor: UserEntity;
+  patient: UserEntity;
 }
 
 export interface HandleResult {

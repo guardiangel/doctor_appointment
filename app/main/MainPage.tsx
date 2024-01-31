@@ -11,6 +11,7 @@ import CancelBooking from "../(components)/CancelBooking";
 import BookingAppointment from "../(components)/BookingAppointment";
 import SearchDoctor from "../(components)/SearchDoctor";
 import ProvideFeedBack from "../(components)/ProvideFeedBack";
+import ViewMyAppointments from "../(components)/ViewMyAppointments";
 
 type Props = {};
 
@@ -54,6 +55,9 @@ const MainPage = (props: Props) => {
         <ProvideFeedBack />
       )}
       {user?.type === "2" && operation === "viewCustomer" && <ViewCustomer />}
+      {user?.type === "2" && operation === "viewMyAppointments" && (
+        <ViewMyAppointments />
+      )}
     </main>
   );
 };
