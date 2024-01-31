@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../context/UserContext";
-import { UserLoginState } from "../interfaces/utils";
+import { HandleResult, UserLoginState } from "../interfaces/utils";
 
 type Props = {};
-
-interface CancelResult {
-  status: string;
-  message: string;
-}
 
 const ViewBooking = (props: Props) => {
   const userLoginState: UserLoginState = useUserContext();
   const [appointmentId, setAppointmentId] = useState("");
-  const [result, setResult] = useState<CancelResult>({
-    status: "0",
+  const [result, setResult] = useState<HandleResult>({
+    status: "",
     message: "",
   });
 
@@ -38,7 +33,6 @@ const ViewBooking = (props: Props) => {
         }
       );
       await cancelResult.json().then((result) => {
-        console.log("result-------", result);
         setResult(result);
       });
     }

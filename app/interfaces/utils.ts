@@ -50,3 +50,8 @@ export interface AppointmentEntity {
   appointmentDate: string;
   doctor: UserEntity;
 }
+
+export interface HandleResult {
+  status: string;
+  message: string;
+}
