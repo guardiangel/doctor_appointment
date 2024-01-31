@@ -43,7 +43,12 @@ const Menu = ({ type, handleOperation }: Props) => {
           <div className="p-8" onClick={() => handleOperation("viewDetail")}>
             My Details
           </div>
-          <div className="p-8">Book Appointment</div>
+          <div
+            className="p-8"
+            onClick={() => handleOperation("bookingAppointment")}
+          >
+            Book Appointment
+          </div>
           <div className="p-8" onClick={() => handleOperation("viewBooking")}>
             View Bookings
           </div>

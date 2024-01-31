@@ -4,10 +4,18 @@ import { UserLoginState } from "../interfaces/utils";
 
 type Props = {};
 
+interface CancelResult {
+  status: string;
+  message: string;
+}
+
 const ViewBooking = (props: Props) => {
   const userLoginState: UserLoginState = useUserContext();
   const [appointmentId, setAppointmentId] = useState("");
-  const [flag, setFlag] = useState(0);
+  const [result, setResult] = useState<CancelResult>({
+    status: "0",
+    message: "",
+  });
 
   function isNumeric(value: any) {
     return /^\d+$/.test(value);
@@ -19,9 +27,9 @@ const ViewBooking = (props: Props) => {
       return;
     }
 
-    if (window.confirm("Want to cancel appointment, click ok button")) {
+    if (window.confirm("Want to cancel appointment, Click ok button")) {
       const data = { appointmentId: appointmentId };
-      const appointment = await fetch(
+      const cancelResult = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/appointment`,
         {
           method: "DELETE",
@@ -29,12 +37,9 @@ const ViewBooking = (props: Props) => {
           body: JSON.stringify(data),
         }
       );
-      await appointment.json().then((result) => {
-        if (result !== null && result.appointmentId) {
-          setFlag(1);
-        } else {
-          setFlag(2);
-        }
+      await cancelResult.json().then((result) => {
+        console.log("result-------", result);
+        setResult(result);
       });
     }
   }
@@ -57,15 +62,9 @@ const ViewBooking = (props: Props) => {
         <button className="w-20 h-10 bg-blue-500" onClick={handleDelete}>
           Delete
         </button>
-        {flag === 1 && (
+        {result?.status !== "" && (
           <div className="text-center text-red-500 underline text-lg">
-            Delete {appointmentId} successfully.
-          </div>
-        )}
-        {flag === 2 && (
-          <div className="text-center text-red-500  text-lg">
-            Delete {appointmentId} failed, please check the appointmentId is
-            correct.
+            {result?.message}
           </div>
         )}
       </div>

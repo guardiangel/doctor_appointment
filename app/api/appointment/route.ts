@@ -1,6 +1,8 @@
 import { Appointment } from "@prisma/client";
 import { customPrisma } from "../prismaClient";
 import { NextResponse } from "next/server";
+import { metadata } from "../../layout";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 //api/appointment
 export async function GET(req: Request) {
@@ -67,8 +69,6 @@ export async function DELETE(req: Request) {
   const numAppointmentId = parseInt(appointmentId);
 
   try {
-    console.log("appointmentId delete=", appointmentId);
-
     const treatment = await customPrisma.treatment.findUnique({
       where: {
         appointmentId: numAppointmentId,
@@ -76,19 +76,23 @@ export async function DELETE(req: Request) {
     });
 
     if (treatment != null) {
-      return NextResponse.json({ message: "Have treatment, can't delete" });
+      return NextResponse.json({
+        status: "9999",
+        message: "Have treatment, can't delete",
+      });
     }
 
-    const deleteAppointment = await customPrisma.appointment.delete({
+    await customPrisma.appointment.delete({
       where: {
         appointmentId: numAppointmentId,
       },
     });
 
-    console.log("deleteAppointment=", deleteAppointment);
-
-    return NextResponse.json(deleteAppointment);
-  } catch (err) {
-    return NextResponse.json({ message: err });
+    return NextResponse.json({
+      status: "8888",
+      message: `Successfully delete appointmentId ${appointmentId}`,
+    });
+  } catch (e: any) {
+    return NextResponse.json({ status: "9999", message: e?.meta?.cause });
   }
 }

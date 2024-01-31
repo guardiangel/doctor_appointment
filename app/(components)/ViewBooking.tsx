@@ -36,7 +36,7 @@ const ViewBooking = (props: Props) => {
         Booking History
       </div>
 
-      <div className="sm:grid grid-cols-6 m-auto w-5/6 min-w-[20px] bg-orange-400">
+      <div className="sm:grid grid-cols-6 m-auto w-5/6 min-w-[20px] bg-orange-400 text-center">
         <div className="border-2">AppointmentId</div>
         <div className="border-2">PatientId</div>
         <div className="border-2">Doctor Id</div>
@@ -48,7 +48,7 @@ const ViewBooking = (props: Props) => {
       {appointments?.map((appointment, index) => (
         <>
           <div
-            className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-yellow-200"
+            className="sm:grid grid-cols-6 m-auto w-5/6 min-w-[20px] bg-yellow-200 text-center"
             key={appointment.id}
           >
             <div className="border-2">{appointment.appointmentId}</div>

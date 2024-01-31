@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import Ad1 from "public/assets/ad-1.jpg";
+import hospital from "public/assets/hospital.jpg";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
@@ -24,7 +24,7 @@ const Navbar = () => {
           (max-width:768px) 72vw,
           (max-width:1060px) 50vw
           "
-            src={Ad1}
+            src={hospital}
           />
         </div>
       </div>

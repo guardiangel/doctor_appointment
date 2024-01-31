@@ -5,10 +5,11 @@ import { UserLoginState } from "../interfaces/utils";
 import ViewDetail from "../(components)/ViewDetail";
 import Menu from "../(shared)/Menu";
 import Navbar from "../(shared)/Navbar";
-import SearchDoctor from "../(components)/SearchDoctor";
 import ViewCustomer from "../(components)/ViewCustomer";
 import ViewBooking from "../(components)/ViewBooking";
 import CancelBooking from "../(components)/CancelBooking";
+import BookingAppointment from "../(components)/BookingAppointment";
+import SearchDoctor from "../(components)/SearchDoctor";
 
 type Props = {};
 
@@ -41,6 +42,9 @@ const MainPage = (props: Props) => {
     <main>
       <Navbar />
       <Menu type={user.type} handleOperation={handleOperation} />
+      {user?.type === "3" && operation === "bookingAppointment" && (
+        <BookingAppointment />
+      )}
       {user?.type === "3" && operation === "searchDoctor" && <SearchDoctor />}
       {user?.type === "3" && operation === "viewDetail" && <ViewDetail />}
       {user?.type === "3" && operation === "viewBooking" && <ViewBooking />}
