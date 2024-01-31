@@ -44,17 +44,27 @@ const BookingAppointment = (props: Props) => {
 
   useEffect(() => {
     getAllTimeslots();
-    searchAllDoctor();
     getAllCategory();
     getMaxAppointmentId();
   }, [refreshFlag]);
+
+  //Change category, select relative doctors
+  const handleSelectedCategory = async (e: any) => {
+    setSelectedCategory(e.target.value);
+    //don't use selectedCategory in the below query since it will work in the next render.
+    searchAllDoctorByCategoryValue(e.target.value);
+  };
 
   //choose an appointment data
   const handleSelectedDate = async () => {
     const formateDate = moment(appointmentDate).format("YYYY-MM-DD");
     console.log("formateDate", formateDate, selectedDoctorId);
 
-    if (appointmentDate && selectedDoctorId && selectedCategory) {
+    if (
+      appointmentDate !== "" &&
+      selectedDoctorId !== "" &&
+      selectedCategory !== ""
+    ) {
       //get all the appointments of the current doctor in the current date
       const appointments = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/appointment?getConfirmedAppointment=getConfirmedAppointment&userId=${selectedDoctorId}&appointmentDate=${formateDate}`,
@@ -75,18 +85,18 @@ const BookingAppointment = (props: Props) => {
   };
 
   //get all the appointments of the chosen doctor
-  async function getConfirmedAppointment() {
-    const appointments = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/appointment?getConfirmedAppointment=getConfirmedAppointment&userId=${selectedDoctorId}&appointmentDate=${appointmentDate}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    await appointments.json().then((result) => {
-      setPreConfiredAppointments(result);
-    });
-  }
+  // async function getConfirmedAppointment() {
+  //   const appointments = await fetch(
+  //     `${process.env.NEXT_PUBLIC_URL}/api/appointment?getConfirmedAppointment=getConfirmedAppointment&userId=${selectedDoctorId}&appointmentDate=${appointmentDate}`,
+  //     {
+  //       method: "GET",
+  //       headers: { "Content-Type": "application/json" },
+  //     }
+  //   );
+  //   await appointments.json().then((result) => {
+  //     setPreConfiredAppointments(result);
+  //   });
+  // }
 
   function handleChooseTimeSlot(timeSlot: string) {
     setSelectedTimeSlot(timeSlot);
@@ -109,16 +119,21 @@ const BookingAppointment = (props: Props) => {
     });
   }
 
-  //get all doctors
-  async function searchAllDoctor() {
+  //get all doctors based on the category
+  async function searchAllDoctorByCategoryValue(categoryValue: string) {
+    if (categoryValue === "") {
+      setDoctors([]);
+    }
+
     const appointment = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/user?searchAllDoctor=searchAllDoctor`,
+      `${process.env.NEXT_PUBLIC_URL}/api/user?searchAllDoctorByCategoryId=searchAllDoctorByCategoryIds&categoryValue=${categoryValue}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       }
     );
     await appointment.json().then((result) => {
+      console.log("doctors=", result);
       setDoctors(result);
     });
   }
@@ -147,6 +162,7 @@ const BookingAppointment = (props: Props) => {
       }
     );
     await categories.json().then((result) => {
+      console.log("categories===", result);
       setCategories(result);
     });
   }
@@ -221,7 +237,7 @@ const BookingAppointment = (props: Props) => {
                 component="select"
                 id="category"
                 name="category"
-                onChange={(e: any) => setSelectedCategory(e.target.value)}
+                onChange={(e: any) => handleSelectedCategory(e)}
                 // multiple={true}
                 className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
               >

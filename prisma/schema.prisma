@@ -34,8 +34,8 @@ model User {
   type                String
   gender              String
   age                 Int
-  categoryId          String
-  category            Category      @relation(fields: [categoryId], references: [categoryValue])
+  categoryValue       String
+  category            Category      @relation(fields: [categoryValue], references: [categoryValue])
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
   patientAppointments Appointment[] @relation("patientAppointments")
@@ -43,7 +43,7 @@ model User {
   treatments          Treatment[]
   Feedback            Feedback[]
 
-  @@index([categoryId])
+  @@index([categoryValue])
 }
 
 model Treatment {

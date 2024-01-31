@@ -18,17 +18,17 @@ export async function GET(req: Request) {
         treatments: true,
       },
     });
-  } else if (obj.searchAllDoctor) {
+  } else if (obj.searchAllDoctorByCategoryId) {
+    console.log("doctors.obj.categoryValue=", obj.categoryValue);
     //get all the doctors
-    let doctor: User[] | null = await customPrisma.user.findMany({
+    let doctors: User[] | null = await customPrisma.user.findMany({
       where: {
         type: "2",
-      },
-      include: {
-        treatments: true,
+        categoryValue: obj.categoryValue,
       },
     });
-    return NextResponse.json(doctor);
+    console.log("doctors=", doctors);
+    return NextResponse.json(doctors);
   } else if (obj.viewCustomer) {
     //view customer page,get all the customer(patients)
     const users: User[] = await customPrisma.user.findMany({
