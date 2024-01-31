@@ -19,7 +19,7 @@ const SearchDoctor = (props: Props) => {
   //search condition
   const [doctorName, setDoctorName] = useState("");
   const [doctorAddress, setDoctorAddress] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+  const [categoryValue, setCategoryValue] = useState("");
 
   //display doctors' info based on category
   const [doctors, setDoctors] = useState<UserEntity[]>();
@@ -44,14 +44,14 @@ const SearchDoctor = (props: Props) => {
 
   async function handleSearchDoctor() {
     const user = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/user?searchDoctorByConditions=searchDoctorByConditions&searchOptionValue=${searchOptionValue}&categoryId=${categoryId}&doctorName=${doctorName}&doctorAddress=${doctorAddress}`,
+      `${process.env.NEXT_PUBLIC_URL}/api/user?searchDoctorByConditions=searchDoctorByConditions&searchOptionValue=${searchOptionValue}&categoryValue=${categoryValue}&doctorName=${doctorName}&doctorAddress=${doctorAddress}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       }
     );
     await user.json().then((result) => {
-      console.log("result==", result);
+      console.log("handleSearchDoctor==", result);
       setDoctors(result);
     });
   }
@@ -95,7 +95,7 @@ const SearchDoctor = (props: Props) => {
         <div className="text-center  text-2xl mb-5">
           <select
             className="border-2"
-            onChange={(e) => setCategoryId(e.target.value)}
+            onChange={(e) => setCategoryValue(e.target.value)}
           >
             <option value="">Please select a category</option>
             {categories?.map((category) => (

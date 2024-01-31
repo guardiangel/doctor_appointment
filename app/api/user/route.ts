@@ -69,7 +69,7 @@ export async function GET(req: Request) {
       case "2": //search based on doctor's category
         users = await customPrisma.user.findMany({
           where: {
-            categoryId: obj.categoryId,
+            categoryValue: obj.categoryValue,
             type: "2", //2 means doctor
           },
           include: {
