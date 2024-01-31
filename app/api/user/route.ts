@@ -19,7 +19,6 @@ export async function GET(req: Request) {
       },
     });
   } else if (obj.searchAllDoctorByCategoryId) {
-    console.log("doctors.obj.categoryValue=", obj.categoryValue);
     //get all the doctors
     let doctors: User[] | null = await customPrisma.user.findMany({
       where: {
@@ -27,7 +26,6 @@ export async function GET(req: Request) {
         categoryValue: obj.categoryValue,
       },
     });
-    console.log("doctors=", doctors);
     return NextResponse.json(doctors);
   } else if (obj.viewCustomer) {
     //view customer page,get all the customer(patients)
@@ -76,7 +74,6 @@ export async function GET(req: Request) {
             category: true,
           },
         });
-        console.log("user2===", users);
         break;
       case "3": //search based on doctor's address
         users = await customPrisma.user.findMany({
