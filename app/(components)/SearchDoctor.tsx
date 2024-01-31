@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../context/UserContext";
-import { UserLoginState } from "../interfaces/utils";
+import { CategoryEntity, UserLoginState } from "../interfaces/utils";
 
 type Props = {};
 
