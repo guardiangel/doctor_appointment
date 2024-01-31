@@ -9,7 +9,7 @@ export async function GET(req: Request) {
   const { userId } = obj;
   const treatments: Treatment[] | null = await customPrisma.treatment.findMany({
     where: {
-      userId: userId,
+      patientId: userId,
     },
   });
 

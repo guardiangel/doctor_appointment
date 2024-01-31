@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import { useUserContext } from "../context/UserContext";
-import {
-  AppointmentEntity,
-  UserEntity,
-  UserLoginState,
-} from "../interfaces/utils";
-import moment from "moment";
+import { AppointmentEntity, UserLoginState } from "../interfaces/utils";
 
 type Props = {};
 
@@ -13,8 +9,15 @@ const ViewBooking = (props: Props) => {
   const userLoginState: UserLoginState = useUserContext();
   const [appointments, setAppointments] = useState<AppointmentEntity[]>();
 
-  useEffect(() => {
+  const refUserAppointment = useRef(() => {});
+
+  refUserAppointment.current = () => {
     getCurrentUserAppointment();
+  };
+
+  //remove the warning when there is no parameter in the second parameter position of useEffect
+  useEffect(() => {
+    refUserAppointment.current();
   }, []);
 
   async function getCurrentUserAppointment() {
@@ -63,5 +66,4 @@ const ViewBooking = (props: Props) => {
     </>
   );
 };
-
 export default ViewBooking;
