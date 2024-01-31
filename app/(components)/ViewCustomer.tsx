@@ -64,7 +64,7 @@ const ViewCustomer = (props: Props) => {
         </button>
       </div>
 
-      <div className="sm:grid grid-cols-7 m-auto w-5/6 min-w-[20px] bg-orange-400">
+      <div className="sm:grid grid-cols-7 m-auto w-5/6 min-w-[20px] bg-yellow-500">
         <div className="border-2">UId</div>
         <div className="border-2">Name</div>
         <div className="border-2">Address</div>
@@ -80,36 +80,45 @@ const ViewCustomer = (props: Props) => {
             className="sm:grid grid-cols-7 m-auto w-5/6 min-w-[20px] bg-yellow-200"
             key={user.id}
           >
-            <div className="border-2">{user.userId}</div>
-            <div className="border-2">{user.userName}</div>
-            <div className="border-2">{user.address}</div>
-            <div className="border-2">{user.phone}</div>
-            <div className="border-2">{user.email}</div>
-            <div className="border-2">{user.gender}</div>
-            <div className="border-2">{user.age}</div>
+            <div className="border-1">{user.userId}</div>
+            <div className="border-1">{user.userName}</div>
+            <div className="border-1">{user.address}</div>
+            <div className="border-1">{user.phone}</div>
+            <div className="border-1">{user.email}</div>
+            <div className="border-1">{user.gender}</div>
+            <div className="border-1">{user.age}</div>
           </div>
         </>
       ))}
 
       <>
-        {userArray?.length == 1 && (
+        {userArray?.length == 1 && userArray[0]?.treatments?.length > 0 && (
           <>
-            <div className="text-center text-blue-500 underline text-lg">
+            <div className="text-center text-blue-500 underline text-lg mt-10">
               Patient&apos;s Treatment HIstory
             </div>
+
+            <div className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-yellow-500">
+              <div className="border-1">UId</div>
+              <div className="border-1">Dise</div>
+              <div className="border-1">Treatment</div>
+              <div className="border-1">DNote</div>
+              <div className="border-1">DateTime</div>
+            </div>
+
             {userArray?.map((user, index) => (
               <>
                 {user?.treatments.map((treatment, treatment_index) => (
                   <div
-                    className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-yellow-200"
+                    className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-yellow-100"
                     key={treatment.id}
                   >
-                    <div className="border-2">{treatment.patientId}</div>
-                    <div className="border-2">{treatment.dise}</div>
-                    <div className="border-2">{treatment.treatment}</div>
-                    <div className="border-2">{treatment.note}</div>
-                    <div className="border-2">
-                      {moment(treatment.createdAt, "YYYY-MM-DD").toString()}
+                    <div className="border-1">{treatment.patientId}</div>
+                    <div className="border-1">{treatment.dise}</div>
+                    <div className="border-1">{treatment.treatment}</div>
+                    <div className="border-1">{treatment.note}</div>
+                    <div className="border-1">
+                      {moment(treatment.createdAt).format("YYYY-MM-DD")}
                     </div>
                   </div>
                 ))}
