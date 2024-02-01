@@ -60,7 +60,40 @@ export async function GET(req: Request) {
         },
       });
 
-    console.log("viewMyAppointmentsFlag appointments", appointments);
+    return NextResponse.json(appointments);
+  } else if (obj.viewMyAppointmentsCurrentDay) {
+    //only query the current day's appointments
+    //eliminate the appointments that have been treated already.
+    const currentDate = new Date();
+    const formattedDate = formatDate(currentDate);
+    console.log("formattedDate=", formattedDate);
+
+    const appointments: Appointment[] | null =
+      await customPrisma.appointment.findMany({
+        where: {
+          doctorId: obj.doctorId,
+          NOT: {
+            appointmentId: {
+              in: await customPrisma.treatment
+                .findMany({
+                  select: {
+                    appointmentId: true,
+                  },
+                })
+                .then((data) =>
+                  data.map((item) => {
+                    return item.appointmentId;
+                  })
+                ),
+            },
+          },
+          appointmentDate: formattedDate,
+        },
+        include: {
+          patient: true,
+        },
+      });
+
     return NextResponse.json(appointments);
   }
 
@@ -125,4 +158,12 @@ export async function DELETE(req: Request) {
   } catch (e: any) {
     return NextResponse.json({ status: "9999", message: e?.meta?.cause });
   }
+}
+
+function formatDate(date: Date) {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+  const day = date.getDate().toString().padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }

@@ -12,6 +12,7 @@ import BookingAppointment from "../(components)/BookingAppointment";
 import SearchDoctor from "../(components)/SearchDoctor";
 import ProvideFeedBack from "../(components)/ProvideFeedBack";
 import ViewMyAppointments from "../(components)/ViewMyAppointments";
+import AddDescription from "../(components)/AddDescription";
 
 type Props = {};
 
@@ -57,6 +58,9 @@ const MainPage = (props: Props) => {
       {user?.type === "2" && operation === "viewCustomer" && <ViewCustomer />}
       {user?.type === "2" && operation === "viewMyAppointments" && (
         <ViewMyAppointments />
+      )}
+      {user?.type === "2" && operation === "addDescription" && (
+        <AddDescription />
       )}
     </main>
   );

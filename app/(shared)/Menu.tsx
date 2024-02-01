@@ -35,7 +35,12 @@ const Menu = ({ type, handleOperation }: Props) => {
           <div className="p-8" onClick={() => handleOperation("viewCustomer")}>
             View Customer
           </div>
-          <div className="p-8">Add Description</div>
+          <div
+            className="p-8"
+            onClick={() => handleOperation("addDescription")}
+          >
+            Add Description
+          </div>
           <div className="p-8">My Details</div>
           <div className="p-8">Search Doctor</div>
           <div className="p-8" onClick={() => forwardToLogin()}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useUserContext } from "../context/UserContext";
 import { AppointmentEntity, UserLoginState } from "../interfaces/utils";
 
@@ -8,13 +8,20 @@ const ViewMyAppointments = (props: Props) => {
   const userLoginState: UserLoginState = useUserContext();
   const [appointments, setAppointments] = useState<AppointmentEntity[]>();
 
-  useEffect(() => {
+  const refUserAppointment = useRef(() => {});
+
+  refUserAppointment.current = () => {
     getAllMyAppointment(userLoginState.userId);
+  };
+
+  //remove the warning when there is no parameter in the second parameter position of useEffect
+  useEffect(() => {
+    refUserAppointment.current();
   }, []);
 
   async function getAllMyAppointment(userId: string) {
     const appointments = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/appointment?viewMyAppointmentsFlag=viewMyAppointmentsFlag&doctorId=${userLoginState.userId}`,
+      `${process.env.NEXT_PUBLIC_URL}/api/appointment?viewMyAppointmentsFlag=viewMyAppointmentsFlag&doctorId=${userId}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },

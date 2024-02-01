@@ -55,22 +55,22 @@ const users = [
   },
 ];
 
-const treatments = [
-  {
-    appointmentId: 1,
-    patientId: "3001",
-    dise: "Bone",
-    treatment: "Pills",
-    note: "Normal",
-  },
-  {
-    appointmentId: 2,
-    patientId: "3001",
-    dise: "ABC",
-    treatment: "Operations",
-    note: "Minor Operation",
-  },
-];
+// const treatments = [
+//   {
+//     appointmentId: 88888,
+//     patientId: "3001",
+//     dise: "Bone",
+//     treatment: "Pills",
+//     note: "Normal",
+//   },
+//   {
+//     appointmentId: 99999,
+//     patientId: "3001",
+//     dise: "ABC",
+//     treatment: "Operations",
+//     note: "Minor Operation",
+//   },
+// ];
 
 const categories = [
   {
@@ -188,9 +188,9 @@ async function main() {
   for (const user of users) {
     await prisma.user.create({ data: user });
   }
-  for (const treatment of treatments) {
-    await prisma.treatment.create({ data: treatment });
-  }
+  // for (const treatment of treatments) {
+  //   await prisma.treatment.create({ data: treatment });
+  // }
 
   for (const category of categories) {
     await prisma.category.create({ data: category });
