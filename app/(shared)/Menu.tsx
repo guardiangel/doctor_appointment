@@ -22,7 +22,12 @@ const Menu = ({ type, handleOperation }: Props) => {
           >
             Add doctor
           </div>
-          <div className="p-8">View Doctor</div>
+          <div
+            className="p-8"
+            onClick={() => handleOperation("adminViewDoctor")}
+          >
+            View Doctor
+          </div>
           <div
             className="p-8"
             onClick={() => handleOperation("adminViewCustomer")}

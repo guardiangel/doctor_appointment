@@ -22,7 +22,7 @@ const AdminAddDoctor = (props: Props) => {
 
   useEffect(() => {
     getAllCategory();
-  }, []);
+  }, [handleResult]);
 
   //get all categories
   async function getAllCategory() {
@@ -50,7 +50,7 @@ const AdminAddDoctor = (props: Props) => {
     });
   };
 
-  const updateDoctorInfoSchema = yup.object().shape({
+  const addDoctorInfoSchema = yup.object().shape({
     userId: yup.string().required("required"),
     userName: yup.string().required("required"),
     address: yup.string().required("required"),
@@ -70,7 +70,7 @@ const AdminAddDoctor = (props: Props) => {
     phone: "",
     email: "",
     gender: "",
-    age: 0,
+    age: "",
     category: "",
   };
 
@@ -79,9 +79,9 @@ const AdminAddDoctor = (props: Props) => {
       <Formik
         onSubmit={(e) => handleAddDoctorSubmit(e)}
         initialValues={initialAddDoctorValues}
-        validationSchema={updateDoctorInfoSchema}
-        enableReinitialize={true}
-        key={Date.now()} //Must have the attribute. Otherwise, will get a disgusting error.
+        validationSchema={addDoctorInfoSchema}
+        //enableReinitialize={true}
+        //key={Date.now()} //Must have the attribute. Otherwise, will get a disgusting error.
       >
         <Form>
           <div className="sm:grid grid-cols-1 grid-rows-2 gap-x-2 gap-y-2 my-5 text-center align-baseline ">

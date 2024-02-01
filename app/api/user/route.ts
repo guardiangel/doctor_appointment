@@ -91,6 +91,14 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json(users);
+  } else if (obj.adminViewDoctor) {
+    //get all the doctor
+    const users: User[] = await customPrisma.user.findMany({
+      where: {
+        type: "2",
+      },
+    });
+    return NextResponse.json(users);
   } else {
     const { userId, password, type } = obj;
     user = await customPrisma.user.findFirst({
@@ -154,18 +162,25 @@ export async function POST(req: Request) {
     category,
   } = await req.json();
 
-  const existUser = await customPrisma.user.findUnique({
+  const existUser: User[] = await customPrisma.user.findMany({
     where: {
-      userId: userId,
+      OR: [
+        {
+          userId: userId,
+        },
+        {
+          email: email,
+        },
+      ],
     },
   });
 
   console.log("exuser", existUser);
 
-  if (existUser !== null) {
+  if (existUser.length > 0) {
     return NextResponse.json({
       status: "9999",
-      message: `The userid ${userId} already exists in database, can't add again.`,
+      message: `The userid ${userId} or email ${email} already exists in database, can't add.`,
     });
   }
 

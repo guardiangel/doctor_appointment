@@ -17,6 +17,7 @@ import ViewDoctorDetail from "../(components)/ViewDoctorDetail";
 import DoctorViewCustomer from "../(components)/DoctorViewCustomer";
 import AdminViewCustomer from "../(components)/AdminViewCustomer";
 import AdminAddDoctor from "../(components)/AdminAddDoctor";
+import AdminViewDoctor from "../(components)/AdminViewDoctor";
 
 type Props = {};
 
@@ -71,12 +72,14 @@ const MainPage = (props: Props) => {
       {user?.type === "2" && operation === "viewDoctorDetail" && (
         <ViewDoctorDetail />
       )}
-
       {user?.type === "1" && operation === "adminViewCustomer" && (
         <AdminViewCustomer />
       )}
       {user?.type === "1" && operation === "adminAddDoctor" && (
         <AdminAddDoctor />
+      )}{" "}
+      {user?.type === "1" && operation === "adminViewDoctor" && (
+        <AdminViewDoctor />
       )}
     </main>
   );
