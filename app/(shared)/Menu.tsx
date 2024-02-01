@@ -25,7 +25,7 @@ const Menu = ({ type, handleOperation }: Props) => {
         </div>
       )}
       {type == "2" && (
-        <div className="sm:grid grid-cols-6 grid-rows-1 gap-x-1 gap-y-1 my-2 bg-blue-300">
+        <div className="sm:grid grid-cols-5 grid-rows-1 gap-x-1 gap-y-1 my-2 bg-blue-300">
           <div
             className="p-8"
             onClick={() => handleOperation("viewMyAppointments")}
@@ -41,8 +41,12 @@ const Menu = ({ type, handleOperation }: Props) => {
           >
             Add Description
           </div>
-          <div className="p-8">My Details</div>
-          <div className="p-8">Search Doctor</div>
+          <div
+            className="p-8"
+            onClick={() => handleOperation("viewDoctorDetail")}
+          >
+            My Details
+          </div>
           <div className="p-8" onClick={() => forwardToLogin()}>
             Logout
           </div>

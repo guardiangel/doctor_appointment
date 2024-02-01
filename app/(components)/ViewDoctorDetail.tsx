@@ -1,21 +1,22 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUserContext } from "../context/UserContext";
 import {
+  CategoryEntity,
   HandleResult,
-  TreatmentEntity,
   UserEntity,
   UserLoginState,
 } from "../interfaces/utils";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import moment from "moment";
 
 type Props = {};
 
-const ViewDetail = (props: Props) => {
+const ViewDoctorDetail = (props: Props) => {
   const userLoginState: UserLoginState = useUserContext();
 
   const [currentUser, setCurrentUser] = useState<UserEntity>();
+
+  const [categories, setCategories] = useState<CategoryEntity[]>();
 
   const [handleResult, setHandleResult] = useState<HandleResult>({
     status: "",
@@ -24,7 +25,22 @@ const ViewDetail = (props: Props) => {
 
   useEffect(() => {
     getUserInfoByUserId(userLoginState.id);
-  }, [userLoginState.id, handleResult]);
+    getAllCategory();
+  }, [userLoginState.id]);
+
+  //get all categories
+  async function getAllCategory() {
+    const categories = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/category`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    await categories.json().then((result) => {
+      setCategories(result);
+    });
+  }
 
   async function getUserInfoByUserId(id: String) {
     const user = await fetch(
@@ -41,7 +57,7 @@ const ViewDetail = (props: Props) => {
   }
 
   //handle submit event
-  const handlePersonalSubmit = async (data: typeof initialUserValues) => {
+  const handleDoctorSubmit = async (data: typeof initialDoctorValues) => {
     const user = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/user`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -52,43 +68,46 @@ const ViewDetail = (props: Props) => {
     });
   };
 
-  const updatePersonalInfoSchema = yup.object().shape({
+  const updateDoctorInfoSchema = yup.object().shape({
     userId: yup.string().required("required"),
     userName: yup.string().required("required"),
     address: yup.string().required("required"),
     phone: yup.string().required("required"),
     email: yup.string().required("required"),
+    category: yup.string().required("required"),
   });
 
-  const initialUserValues = {
+  const initialDoctorValues = {
     id: currentUser?.id,
     userId: currentUser?.userId,
     userName: currentUser?.userName,
     address: currentUser?.address,
     phone: currentUser?.phone,
     email: currentUser?.email,
-    treatments: currentUser?.treatments,
+    category: currentUser?.category?.categoryValue,
   };
 
   return (
     <div>
       <Formik
-        onSubmit={(e) => handlePersonalSubmit(e)}
-        initialValues={initialUserValues}
-        validationSchema={updatePersonalInfoSchema}
+        onSubmit={(e) => handleDoctorSubmit(e)}
+        initialValues={initialDoctorValues}
+        validationSchema={updateDoctorInfoSchema}
         enableReinitialize={true}
         key={Date.now()} //Must have the attribute. Otherwise, will get a disgusting error.
       >
         <Form>
-          <div className="sm:grid grid-cols-1 grid-rows-2 gap-x-2 gap-y-2 my-5 text-center align-baseline">
-            <div className="text-center">Details</div>
-            {/**userId */}
+          <div className="sm:grid grid-cols-1 grid-rows-2 gap-x-2 gap-y-2 my-5 text-center align-baseline ">
+            <div className="text-center  text-blue-500 underline text-lg">
+              View My Details
+            </div>
+            {/**Doctor Id */}
             <div>
-              <label htmlFor="inputUserId">User Id:</label>
+              <label htmlFor="inputUserId">Doctor Id:</label>
               <Field
                 id="inputUserId"
                 name="userId"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-red-500"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-gray-200"
                 readOnly
               />
               <ErrorMessage name="userId" component="span" />
@@ -99,7 +118,7 @@ const ViewDetail = (props: Props) => {
               <Field
                 id="inputUserName"
                 name="userName"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-5"
               />
               <ErrorMessage name="userName" component="span" />
             </div>
@@ -107,19 +126,20 @@ const ViewDetail = (props: Props) => {
             <div>
               <label htmlFor="inputAddress">Address:</label>
               <Field
+                as="textarea"
                 id="inputAddress"
                 name="address"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-2"
               />
               <ErrorMessage name="address" component="span" />
             </div>
             {/**phone */}
             <div>
-              <label htmlFor="inputPhone">Mobile No:</label>
+              <label htmlFor="inputPhone">Mobile:</label>
               <Field
                 id="inputPhone"
                 name="phone"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-5"
               />
               <ErrorMessage name="phone" component="span" />
             </div>
@@ -129,13 +149,38 @@ const ViewDetail = (props: Props) => {
               <Field
                 id="inputEmail"
                 name="email"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-6"
               />
-              <ErrorMessage name="phone" component="span" />
+              <ErrorMessage name="email" component="span" />
+            </div>
+            {/**category */}
+            <div>
+              <label htmlFor="category">Category:</label>
+              <Field
+                as="select"
+                id="category"
+                name="category"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-1"
+                //onChange={(e: any) => setCategoryValue(e.target.value)}
+              >
+                <option value="">Please select a category</option>
+                {categories?.map((category) => (
+                  <option
+                    key={category.categoryValue}
+                    value={category.categoryValue}
+                  >
+                    {category.categoryName}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage name="category" component="span" />
             </div>
             {/**button */}
-            <div className="sm:grid grid-cols-2 m-auto gap-12 ">
-              <button className="w-20 h-10 bg-blue-500" type="submit">
+            <div className="sm:grid m-auto gap-12 mt-5 text-center">
+              <button
+                className="w-20 h-10 bg-blue-300 rounded-full"
+                type="submit"
+              >
                 Update
               </button>
             </div>
@@ -147,31 +192,8 @@ const ViewDetail = (props: Props) => {
           </div>
         </Form>
       </Formik>
-      {/**treatment history */}
-      <div className="text-center ">Treatment History</div>
-      <div className="sm:grid grid-cols-5 m-auto bg-blue-300 w-2/6 min-w-[20px]">
-        <div>UId</div>
-        <div>Dise</div>
-        <div>Treatment</div>
-        <div>Dnote</div>
-        <div>DateTime</div>
-      </div>
-      {currentUser?.treatments?.map((treatmentHistory: TreatmentEntity) => (
-        <div
-          className="sm:grid grid-cols-5 m-auto w-2/6 min-w-[20px] border-2"
-          key={treatmentHistory.id}
-        >
-          <div className="border-2">{treatmentHistory.patientId}</div>
-          <div className="border-2">{treatmentHistory.dise}</div>
-          <div className="border-2">{treatmentHistory.treatment}</div>
-          <div className="border-2">{treatmentHistory.note}</div>
-          <div className="border-2">
-            {moment(treatmentHistory.createdAt).format("DD-MM-YYYY")}
-          </div>
-        </div>
-      ))}
     </div>
   );
 };
 
-export default ViewDetail;
+export default ViewDoctorDetail;

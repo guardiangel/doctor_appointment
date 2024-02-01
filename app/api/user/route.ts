@@ -113,26 +113,42 @@ export async function GET(req: Request) {
 
 //Modify userInfo
 export async function PATCH(req: Request) {
-  const { id, userId, userName, address, phone, email, type } =
+  const { id, userId, userName, address, phone, email, category } =
     await req.json();
 
-  const data = {
-    userId: userId,
-    userName: userName,
-    address: address,
-    phone: phone,
-    email: email,
-  };
+  console.log(
+    "req.json=",
+    id,
+    userId,
+    userName,
+    address,
+    phone,
+    email,
+    category
+  );
 
-  const updatedUser = await customPrisma.user.update({
-    where: {
-      id: id,
-    },
-    data,
-    include: {
-      treatments: true,
-    },
-  });
+  try {
+    const data = {
+      userId: userId,
+      userName: userName,
+      address: address,
+      phone: phone,
+      email: email,
+      //type: type ? type : undefined, //1 admin 2 doctor 3 patient
+      categoryValue: category ? category : undefined,
+    };
 
-  return NextResponse.json(updatedUser);
+    await customPrisma.user.update({
+      where: {
+        id: id,
+      },
+      data,
+    });
+    return NextResponse.json({
+      status: "8888",
+      message: `modify userId ${userId} Info successfully.`,
+    });
+  } catch (e: any) {
+    return NextResponse.json({ status: "9999", message: e?.meta?.cause });
+  }
 }

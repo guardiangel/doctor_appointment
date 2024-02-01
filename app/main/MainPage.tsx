@@ -13,6 +13,7 @@ import SearchDoctor from "../(components)/SearchDoctor";
 import ProvideFeedBack from "../(components)/ProvideFeedBack";
 import ViewMyAppointments from "../(components)/ViewMyAppointments";
 import AddDescription from "../(components)/AddDescription";
+import ViewDoctorDetail from "../(components)/ViewDoctorDetail";
 
 type Props = {};
 
@@ -34,7 +35,7 @@ const MainPage = (props: Props) => {
     return "";
   };
 
-  const [operation, setOperation] = useState("");
+  const [operation, setOperation] = useState(getDefaultOperation());
 
   const handleOperation = (operationAction: string) => {
     setOperation(operationAction);
@@ -61,6 +62,9 @@ const MainPage = (props: Props) => {
       )}
       {user?.type === "2" && operation === "addDescription" && (
         <AddDescription />
+      )}{" "}
+      {user?.type === "2" && operation === "viewDoctorDetail" && (
+        <ViewDoctorDetail />
       )}
     </main>
   );

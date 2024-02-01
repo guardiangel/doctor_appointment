@@ -81,9 +81,8 @@ const AddDescription = (props: Props) => {
       }
     );
     await treatment.json().then((result) => {
-      console.log("result...", result);
+      setHandleResult(result);
       if (result.status === "8888") {
-        setHandleResult(result);
         setCurrentAppointment(undefined);
       }
     });
