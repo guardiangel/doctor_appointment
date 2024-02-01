@@ -1,7 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useUserContext } from "../context/UserContext";
 import { UserEntity, UserLoginState } from "../interfaces/utils";
-import moment from "moment";
 
 type Props = {};
 

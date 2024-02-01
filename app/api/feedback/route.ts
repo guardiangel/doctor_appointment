@@ -1,5 +1,11 @@
+import { Feedback } from "@prisma/client";
 import { customPrisma } from "../prismaClient";
 import { NextResponse } from "next/server";
+
+export async function GET(req: Request) {
+  const feedbacks: Feedback[] | null = await customPrisma.feedback.findMany();
+  return NextResponse.json(feedbacks);
+}
 
 // api/feedback , create feedback
 export async function POST(req: Request) {

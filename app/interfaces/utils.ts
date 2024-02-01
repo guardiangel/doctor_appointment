@@ -56,3 +56,10 @@ export interface HandleResult {
   status: string;
   message: string;
 }
+
+export interface FeedBackEntity {
+  id: string;
+  feedBackUserId: string;
+  content: string;
+  createdAt: Date;
+}
