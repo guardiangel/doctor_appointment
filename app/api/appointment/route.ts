@@ -95,6 +95,33 @@ export async function GET(req: Request) {
       });
 
     return NextResponse.json(appointments);
+  } else if (obj.adminViewAppointments) {
+    //eliminate the appointments that have been treated already.
+    const appointments: Appointment[] | null =
+      await customPrisma.appointment.findMany({
+        where: {
+          NOT: {
+            appointmentId: {
+              in: await customPrisma.treatment
+                .findMany({
+                  select: {
+                    appointmentId: true,
+                  },
+                })
+                .then((data) =>
+                  data.map((item) => {
+                    return item.appointmentId;
+                  })
+                ),
+            },
+          },
+        },
+        include: {
+          patient: true,
+        },
+      });
+
+    return NextResponse.json(appointments);
   }
 
   return NextResponse.json(null);

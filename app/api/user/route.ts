@@ -97,6 +97,9 @@ export async function GET(req: Request) {
       where: {
         type: "2",
       },
+      include: {
+        category: true,
+      },
     });
     return NextResponse.json(users);
   } else {
@@ -174,8 +177,6 @@ export async function POST(req: Request) {
       ],
     },
   });
-
-  console.log("exuser", existUser);
 
   if (existUser.length > 0) {
     return NextResponse.json({

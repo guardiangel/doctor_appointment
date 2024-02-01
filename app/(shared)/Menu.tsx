@@ -34,7 +34,12 @@ const Menu = ({ type, handleOperation }: Props) => {
           >
             View Customers
           </div>
-          <div className="p-8">View Appointments</div>
+          <div
+            className="p-8"
+            onClick={() => handleOperation("adminViewAppointment")}
+          >
+            View Appointments
+          </div>
           <div className="p-8">View Feedback</div>
           <div className="p-8" onClick={() => forwardToLogin()}>
             Logout

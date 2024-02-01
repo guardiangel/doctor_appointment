@@ -35,13 +35,13 @@ const AdminViewDoctor = (props: Props) => {
       </div>
 
       <div className="sm:grid grid-cols-7 m-auto w-5/6 min-w-[20px] bg-yellow-500 mt-10">
-        <div className="border-2">UId</div>
-        <div className="border-2">Name</div>
-        <div className="border-2">Address</div>
-        <div className="border-2">Mobile</div>
-        <div className="border-2">Email</div>
-        <div className="border-2">Sex</div>
-        <div className="border-2">Age</div>
+        <div className="border-1">DId</div>
+        <div className="border-1">Name</div>
+        <div className="border-1">Address</div>
+        <div className="border-1">Mobile</div>
+        <div className="border-1">Email</div>
+        <div className="border-1">Gender</div>
+        <div className="border-1">Category</div>
       </div>
 
       {userArray?.map((user, index) => (
@@ -56,7 +56,7 @@ const AdminViewDoctor = (props: Props) => {
             <div className="border-1">{user.phone}</div>
             <div className="border-1">{user.email}</div>
             <div className="border-1">{user.gender}</div>
-            <div className="border-1">{user.age}</div>
+            <div className="border-1">{user?.category?.categoryName}</div>
           </div>
         </>
       ))}

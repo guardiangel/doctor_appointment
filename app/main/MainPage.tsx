@@ -18,6 +18,7 @@ import DoctorViewCustomer from "../(components)/DoctorViewCustomer";
 import AdminViewCustomer from "../(components)/AdminViewCustomer";
 import AdminAddDoctor from "../(components)/AdminAddDoctor";
 import AdminViewDoctor from "../(components)/AdminViewDoctor";
+import AdminViewAppointment from "../(components)/AdminViewAppointment";
 
 type Props = {};
 
@@ -80,6 +81,9 @@ const MainPage = (props: Props) => {
       )}{" "}
       {user?.type === "1" && operation === "adminViewDoctor" && (
         <AdminViewDoctor />
+      )}{" "}
+      {user?.type === "1" && operation === "adminViewAppointment" && (
+        <AdminViewAppointment />
       )}
     </main>
   );
