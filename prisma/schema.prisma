@@ -30,7 +30,7 @@ model User {
   userName            String
   address             String
   phone               String
-  email               String
+  email               String        @unique
   type                String
   gender              String
   age                 Int

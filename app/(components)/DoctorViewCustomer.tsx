@@ -5,7 +5,7 @@ import moment from "moment";
 
 type Props = {};
 
-const ViewCustomer = (props: Props) => {
+const DoctorViewCustomer = (props: Props) => {
   const userLoginState: UserLoginState = useUserContext();
 
   const [userArray, setUserArray] = useState<UserEntity[]>();
@@ -130,4 +130,4 @@ const ViewCustomer = (props: Props) => {
   );
 };
 
-export default ViewCustomer;
+export default DoctorViewCustomer;

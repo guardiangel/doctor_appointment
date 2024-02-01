@@ -138,3 +138,59 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ status: "9999", message: e?.meta?.cause });
   }
 }
+
+//add new user
+export async function POST(req: Request) {
+  const {
+    userId,
+    userName,
+    password,
+    address,
+    phone,
+    gender,
+    age,
+    email,
+    type,
+    category,
+  } = await req.json();
+
+  const existUser = await customPrisma.user.findUnique({
+    where: {
+      userId: userId,
+    },
+  });
+
+  console.log("exuser", existUser);
+
+  if (existUser !== null) {
+    return NextResponse.json({
+      status: "9999",
+      message: `The userid ${userId} already exists in database, can't add again.`,
+    });
+  }
+
+  try {
+    const data = {
+      userId: userId,
+      userName: userName,
+      password: password,
+      address: address,
+      phone: phone,
+      email: email,
+      gender: gender,
+      age: parseInt(age),
+      type: type, //1 admin 2 doctor 3 patient
+      categoryValue: category ? category : undefined,
+    };
+
+    await customPrisma.user.create({
+      data,
+    });
+    return NextResponse.json({
+      status: "8888",
+      message: `Add user, userId ${userId} successfully.`,
+    });
+  } catch (e: any) {
+    return NextResponse.json({ status: "9999", message: e?.meta?.cause });
+  }
+}

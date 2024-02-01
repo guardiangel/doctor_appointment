@@ -5,7 +5,7 @@ import { UserLoginState } from "../interfaces/utils";
 import ViewDetail from "../(components)/ViewDetail";
 import Menu from "../(shared)/Menu";
 import Navbar from "../(shared)/Navbar";
-import ViewCustomer from "../(components)/ViewCustomer";
+import ViewCustomer from "../(components)/DoctorViewCustomer";
 import ViewBooking from "../(components)/ViewBooking";
 import CancelBooking from "../(components)/CancelBooking";
 import BookingAppointment from "../(components)/BookingAppointment";
@@ -14,6 +14,9 @@ import ProvideFeedBack from "../(components)/ProvideFeedBack";
 import ViewMyAppointments from "../(components)/ViewMyAppointments";
 import AddDescription from "../(components)/AddDescription";
 import ViewDoctorDetail from "../(components)/ViewDoctorDetail";
+import DoctorViewCustomer from "../(components)/DoctorViewCustomer";
+import AdminViewCustomer from "../(components)/AdminViewCustomer";
+import AdminAddDoctor from "../(components)/AdminAddDoctor";
 
 type Props = {};
 
@@ -26,9 +29,9 @@ const MainPage = (props: Props) => {
   const getDefaultOperation = () => {
     switch (user?.type) {
       case "1":
-        return "";
+        return "adminViewCustomer";
       case "2":
-        return "viewCustomer";
+        return "doctorViewCustomer";
       case "3":
         return "searchDoctor";
     }
@@ -56,15 +59,24 @@ const MainPage = (props: Props) => {
       {user?.type === "3" && operation === "provideFeedBack" && (
         <ProvideFeedBack />
       )}
-      {user?.type === "2" && operation === "viewCustomer" && <ViewCustomer />}
+      {user?.type === "2" && operation === "doctorViewCustomer" && (
+        <DoctorViewCustomer />
+      )}
       {user?.type === "2" && operation === "viewMyAppointments" && (
         <ViewMyAppointments />
       )}
       {user?.type === "2" && operation === "addDescription" && (
         <AddDescription />
-      )}{" "}
+      )}
       {user?.type === "2" && operation === "viewDoctorDetail" && (
         <ViewDoctorDetail />
+      )}
+
+      {user?.type === "1" && operation === "adminViewCustomer" && (
+        <AdminViewCustomer />
+      )}
+      {user?.type === "1" && operation === "adminAddDoctor" && (
+        <AdminAddDoctor />
       )}
     </main>
   );
