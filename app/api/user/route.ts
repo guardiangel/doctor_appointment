@@ -196,7 +196,7 @@ export async function POST(req: Request) {
       gender: gender,
       age: parseInt(age),
       type: type, //1 admin 2 doctor 3 patient
-      categoryValue: category ? category : undefined,
+      categoryValue: category ? category : "",
     };
 
     await customPrisma.user.create({
@@ -207,6 +207,7 @@ export async function POST(req: Request) {
       message: `Add user, userId ${userId} successfully.`,
     });
   } catch (e: any) {
+    console.log("e=", e);
     return NextResponse.json({ status: "9999", message: e?.meta?.cause });
   }
 }

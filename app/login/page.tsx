@@ -23,6 +23,10 @@ const Login = () => {
     null
   );
 
+  const handleRegister = (type: string) => {
+    router.push(`/register`);
+  };
+
   //handle submit event
   const handleSubmit = async (data: typeof initialValues) => {
     data.type = type;
@@ -85,17 +89,21 @@ const Login = () => {
                 })()}
                 {/**userId */}
                 <div>
-                  <label htmlFor="inputUserId">UserId:</label>
+                  <label htmlFor="inputUserId" className="text-xl">
+                    UserId:
+                  </label>
                   <Field
                     id="inputUserId"
                     name="userId"
-                    className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-5"
+                    className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-5 "
                   />
                   <ErrorMessage name="userId" component="span" />
                 </div>
                 {/**password */}
                 <div>
-                  <label htmlFor="inputPassword">Password:</label>
+                  <label htmlFor="inputPassword" className="text-xl">
+                    Password:
+                  </label>
                   <Field
                     id="inputPassword"
                     name="password"
@@ -117,6 +125,22 @@ const Login = () => {
                   </button>
                 </div>
               </div>
+              {(() => {
+                if (type == "3") {
+                  return (
+                    <div className="text-center mt-10">
+                      Not a member yet?
+                      <a
+                        href="#"
+                        className="underline text-xl text-blue-500"
+                        onClick={() => handleRegister("3")}
+                      >
+                        Register
+                      </a>
+                    </div>
+                  );
+                }
+              })()}
             </Form>
           </Formik>
         </div>
