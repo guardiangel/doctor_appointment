@@ -36,7 +36,9 @@ const Login = () => {
     );
     await user.json().then((result) => {
       if (result === null) {
-        alert("The user doesn't exist in database.");
+        alert(
+          "The user doesn't exist in database. please confirm the userId, password, and the login entrance(Admin, Doctor,Patient)."
+        );
       } else {
         setCurrentLoginUser(result);
       }
@@ -87,7 +89,7 @@ const Login = () => {
                   <Field
                     id="inputUserId"
                     name="userId"
-                    className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                    className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-5"
                   />
                   <ErrorMessage name="userId" component="span" />
                 </div>

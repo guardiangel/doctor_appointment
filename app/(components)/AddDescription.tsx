@@ -143,12 +143,12 @@ const AddDescription = (props: Props) => {
                 {/**patientId */}
                 <div>
                   <label htmlFor="InputPatientId" className="text-xl">
-                    PatientId:
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PatientId:
                   </label>
                   <Field
                     id="InputPatientId"
                     name="patientId"
-                    className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-gray-200 ml-10 text-xl"
+                    className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-gray-200 text-xl ml-4 "
                     readOnly
                   />
                   <ErrorMessage name="patientId" component="span" />
@@ -156,7 +156,7 @@ const AddDescription = (props: Props) => {
                 {/**patient name */}
                 <div>
                   <label htmlFor="InputPatientName" className="text-xl">
-                    PatientName:
+                    Patient Name:
                   </label>
                   <Field
                     id="InputPatientName"
@@ -170,7 +170,7 @@ const AddDescription = (props: Props) => {
                 {/**dise TreatmentFor */}
                 <div>
                   <label htmlFor="InputTreatmentFor" className="text-xl">
-                    TreatmentFor:
+                    Treatment&nbsp;For:
                   </label>
                   <Field
                     id="InputTreatmentFor"
@@ -185,12 +185,12 @@ const AddDescription = (props: Props) => {
                 {/**treatment */}
                 <div>
                   <label htmlFor="InputTreatment" className="text-xl">
-                    Treatment:
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Treatment:
                   </label>
                   <Field
                     id="InputTreatment"
                     name="treatment"
-                    className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-7 text-xl"
+                    className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-2 text-xl"
                   />
                   <div>
                     <ErrorMessage name="treatment" component="span" />
@@ -200,7 +200,7 @@ const AddDescription = (props: Props) => {
                 {/**note */}
                 <div>
                   <label htmlFor="InputNote" className="text-xl">
-                    Note:
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note:
                   </label>
                   <Field
                     id="InputNote"

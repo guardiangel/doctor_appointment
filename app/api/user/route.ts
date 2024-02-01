@@ -105,27 +105,13 @@ export async function GET(req: Request) {
     });
   }
 
-  //Remove the password
-  const formatUser = { ...user, password: "" };
-
-  return NextResponse.json(formatUser);
+  return NextResponse.json(user);
 }
 
 //Modify userInfo
 export async function PATCH(req: Request) {
   const { id, userId, userName, address, phone, email, category } =
     await req.json();
-
-  console.log(
-    "req.json=",
-    id,
-    userId,
-    userName,
-    address,
-    phone,
-    email,
-    category
-  );
 
   try {
     const data = {

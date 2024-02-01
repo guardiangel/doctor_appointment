@@ -88,7 +88,7 @@ const ViewDetail = (props: Props) => {
               <Field
                 id="inputUserId"
                 name="userId"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-red-500"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-gray-300"
                 readOnly
               />
               <ErrorMessage name="userId" component="span" />
@@ -99,7 +99,7 @@ const ViewDetail = (props: Props) => {
               <Field
                 id="inputUserName"
                 name="userName"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-2"
               />
               <ErrorMessage name="userName" component="span" />
             </div>
@@ -115,11 +115,11 @@ const ViewDetail = (props: Props) => {
             </div>
             {/**phone */}
             <div>
-              <label htmlFor="inputPhone">Mobile No:</label>
+              <label htmlFor="inputPhone">Phone:</label>
               <Field
                 id="inputPhone"
                 name="phone"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-2"
               />
               <ErrorMessage name="phone" component="span" />
             </div>
@@ -129,13 +129,16 @@ const ViewDetail = (props: Props) => {
               <Field
                 id="inputEmail"
                 name="email"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-3"
               />
               <ErrorMessage name="phone" component="span" />
             </div>
             {/**button */}
-            <div className="sm:grid grid-cols-2 m-auto gap-12 ">
-              <button className="w-20 h-10 bg-blue-500" type="submit">
+            <div className=" m-auto gap-12 text-center">
+              <button
+                className="w-20 h-10 bg-blue-200  rounded-full"
+                type="submit"
+              >
                 Update
               </button>
             </div>
