@@ -113,11 +113,14 @@ const Login = () => {
                 </div>
                 {/**button */}
                 <div className="sm:grid grid-cols-2 m-auto gap-12 ">
-                  <button className="w-20 h-10 bg-blue-500" type="submit">
+                  <button
+                    className="w-20 h-10 bg-blue-300 rounded-full"
+                    type="submit"
+                  >
                     Login
                   </button>
                   <button
-                    className="w-20 h-10 bg-blue-500"
+                    className="w-20 h-10 bg-blue-300 rounded-full"
                     type="button"
                     onClick={() => cancelLogin()}
                   >
@@ -128,11 +131,11 @@ const Login = () => {
               {(() => {
                 if (type == "3") {
                   return (
-                    <div className="text-center mt-10">
+                    <div className="text-center mt-10 text-xl">
                       Not a member yet?
                       <a
                         href="#"
-                        className="underline text-xl text-blue-500"
+                        className="underline text-xl text-blue-500 ml-5"
                         onClick={() => handleRegister("3")}
                       >
                         Register

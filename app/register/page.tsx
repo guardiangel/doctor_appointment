@@ -194,7 +194,8 @@ const Register = (props: Props) => {
             </div>
             {handleResult?.status !== "" && (
               <div className="text-center text-red-500 underline text-2xl mt-5">
-                {handleResult?.message}
+                {handleResult?.message},Click Return button return to login
+                page.
               </div>
             )}
           </div>
