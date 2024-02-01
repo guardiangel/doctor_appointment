@@ -1,5 +1,5 @@
 import React from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type Props = {
   type: string;
