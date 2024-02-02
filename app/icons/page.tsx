@@ -46,7 +46,7 @@ const DefaultIconPage = (props: Props) => {
         After logging in, please do not use F5 or the &quot;Reload this
         page&quot; button next to the address bar to refresh the entire page.
         This project uses contextAPI, which is only valid after the user logs
-        in. Once you refresh the page, you will return to the login page.
+        in. Once you refresh the page, you will return to the index page.
       </div>
     </>
   );
