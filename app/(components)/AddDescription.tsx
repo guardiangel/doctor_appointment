@@ -49,7 +49,6 @@ const AddDescription = (props: Props) => {
   }
 
   function expandTreatment(appointment: AppointmentEntity): void {
-    console.log("appointment1111=", appointment);
     setCurrentAppointment(appointment);
   }
 
@@ -91,7 +90,7 @@ const AddDescription = (props: Props) => {
   return (
     <div>
       <div className="text-center text-blue-500 underline text-2xl mt-10">
-        Add Treatment
+        Add Treatment--(only display appointments in the current date)
       </div>
       {/**all the appointments */}
       <div className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-yellow-500 mt-10 text-center text-xl">
@@ -106,7 +105,13 @@ const AddDescription = (props: Props) => {
         <div
           className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-yellow-200 text-center text-xl"
           key={appointment.id}
-          onClick={() => expandTreatment(appointment)}
+          onClick={() => {
+            setHandleResult({
+              status: "",
+              message: "",
+            });
+            expandTreatment(appointment);
+          }}
         >
           <div className="border-1">{appointment.appointmentId}</div>
           <div className="border-1">{appointment.patientId}</div>
@@ -115,6 +120,12 @@ const AddDescription = (props: Props) => {
           <div className="border-1">{appointment.timeSlotValue}</div>
         </div>
       ))}
+
+      {handleResult?.status !== "" && (
+        <div className="text-center text-red-500 underline text-2xl mt-5">
+          {handleResult?.message}
+        </div>
+      )}
 
       {currentAppointment && (
         <div className="mt-10">
@@ -220,11 +231,6 @@ const AddDescription = (props: Props) => {
                   >
                     Submit
                   </button>
-                  {handleResult?.status !== "" && (
-                    <div className="text-center text-red-500 underline text-2xl mt-5">
-                      {handleResult?.message}
-                    </div>
-                  )}
                 </div>
               </div>
             </Form>

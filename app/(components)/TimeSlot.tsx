@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AppointmentEntity, TimeslotEntity } from "../interfaces/utils";
 
 type Props = {
@@ -17,6 +17,15 @@ const TimeSlot = ({
     { length: rowCount },
     (_, rowIndex) => allTimeSlots.slice(rowIndex * 6, (rowIndex + 1) * 6)
   );
+
+  // const [isHovered, setIsHovered] = useState(false);
+
+  const handleClick = (e: any, value: any) => {
+    e.preventDefault();
+    e.target.className =
+      "border-2 mt-8 space-x-5 space-y-10 text-xl bg-green-500";
+    handleChooseTimeSlot(value);
+  };
 
   return (
     <>
@@ -40,9 +49,11 @@ const TimeSlot = ({
                   </div>
                 ) : (
                   <div
-                    className="border-2 mt-8 space-x-5 space-y-10 text-xl hover:bg-green-500"
+                    className={`border-2 mt-8 space-x-5 space-y-10 text-xl bg-blue-100`}
+                    //onMouseEnter={() => setIsHovered(true)}
                     key={cellIndex}
-                    onClick={() => handleChooseTimeSlot(timeSlot.timeSlotValue)}
+                    //onClick={() => handleChooseTimeSlot(timeSlot.timeSlotValue)}
+                    onClick={(e) => handleClick(e, timeSlot.timeSlotValue)}
                   >
                     {timeSlot.timeSlotValue}
                   </div>

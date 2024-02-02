@@ -30,12 +30,11 @@ export async function POST(req: Request) {
     await customPrisma.treatment.create({
       data,
     });
+    return NextResponse.json({
+      status: "8888",
+      message: "Submit treatment successfully.",
+    });
   } catch (e: any) {
     return NextResponse.json({ status: "9999", message: e?.meta?.cause });
   }
-
-  return NextResponse.json({
-    status: "8888",
-    message: "Submit treatment successfully.",
-  });
 }

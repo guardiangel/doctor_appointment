@@ -81,62 +81,74 @@ const ViewDetail = (props: Props) => {
       >
         <Form>
           <div className="sm:grid grid-cols-1 grid-rows-2 gap-x-2 gap-y-2 my-5 text-center align-baseline">
-            <div className="text-center">Details</div>
+            <div className="text-center underline text-blue-500 text-3xl mb-5">
+              Details
+            </div>
             {/**userId */}
             <div>
-              <label htmlFor="inputUserId">User Id:</label>
+              <label htmlFor="inputUserId" className="text-xl">
+                User Id:
+              </label>
               <Field
                 id="inputUserId"
                 name="userId"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-gray-300"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-gray-300 text-lg"
                 readOnly
               />
               <ErrorMessage name="userId" component="span" />
             </div>
             {/**userName */}
             <div>
-              <label htmlFor="inputUserName">Name:</label>
+              <label htmlFor="inputUserName" className="text-xl">
+                Name:
+              </label>
               <Field
                 id="inputUserName"
                 name="userName"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-2 text-lg"
               />
               <ErrorMessage name="userName" component="span" />
             </div>
             {/**address */}
             <div>
-              <label htmlFor="inputAddress">Address:</label>
+              <label htmlFor="inputAddress" className="text-xl">
+                Address:
+              </label>
               <Field
                 id="inputAddress"
                 name="address"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 text-lg"
               />
               <ErrorMessage name="address" component="span" />
             </div>
             {/**phone */}
             <div>
-              <label htmlFor="inputPhone">Phone:</label>
+              <label htmlFor="inputPhone" className="text-xl">
+                Phone:
+              </label>
               <Field
                 id="inputPhone"
                 name="phone"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-2 text-lg"
               />
               <ErrorMessage name="phone" component="span" />
             </div>
             {/**email */}
             <div>
-              <label htmlFor="inputEmail">Email:</label>
+              <label htmlFor="inputEmail" className="text-xl">
+                Email:
+              </label>
               <Field
                 id="inputEmail"
                 name="email"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-3"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-3 text-lg"
               />
               <ErrorMessage name="phone" component="span" />
             </div>
             {/**button */}
             <div className=" m-auto gap-12 text-center">
               <button
-                className="w-20 h-10 bg-blue-200  rounded-full"
+                className="w-20 h-10 bg-blue-200  rounded-full text-lg"
                 type="submit"
               >
                 Update
@@ -151,8 +163,10 @@ const ViewDetail = (props: Props) => {
         </Form>
       </Formik>
       {/**treatment history */}
-      <div className="text-center ">Treatment History</div>
-      <div className="sm:grid grid-cols-5 m-auto bg-blue-300 w-2/6 min-w-[20px]">
+      <div className="text-center underline text-blue-500 text-3xl mb-5">
+        Treatment History
+      </div>
+      <div className="sm:grid grid-cols-5 m-auto bg-blue-300 w-5/6 min-w-[20px] text-xl">
         <div>UId</div>
         <div>Dise</div>
         <div>Treatment</div>
@@ -161,7 +175,7 @@ const ViewDetail = (props: Props) => {
       </div>
       {currentUser?.treatments?.map((treatmentHistory: TreatmentEntity) => (
         <div
-          className="sm:grid grid-cols-5 m-auto w-2/6 min-w-[20px] border-2"
+          className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] border-2 text-lg bg-yellow-300"
           key={treatmentHistory.id}
         >
           <div className="border-2">{treatmentHistory.patientId}</div>

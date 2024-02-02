@@ -11,7 +11,7 @@ type Props = {};
 const AdminViewAppointment = (props: Props) => {
   const [appointments, setAppointments] = useState<AppointmentEntity[]>();
 
-  const [result, setResult] = useState<HandleResult>({
+  const [handleResult, setHandleResult] = useState<HandleResult>({
     status: "",
     message: "",
   });
@@ -25,7 +25,7 @@ const AdminViewAppointment = (props: Props) => {
   //remove the warning when there is no parameter in the second parameter position of useEffect
   useEffect(() => {
     refUserAppointment.current();
-  }, []);
+  }, [handleResult]);
 
   async function getAllAppointments() {
     const appointments = await fetch(
@@ -61,7 +61,7 @@ const AdminViewAppointment = (props: Props) => {
         }
       );
       await cancelResult.json().then((result) => {
-        setResult(result);
+        setHandleResult(result);
       });
     }
   };
@@ -72,8 +72,9 @@ const AdminViewAppointment = (props: Props) => {
         Appointments
       </div>
 
-      <div className="sm:grid grid-cols-6 m-auto w-5/6 min-w-[20px] bg-yellow-500 text-center">
+      <div className="sm:grid grid-cols-7 m-auto w-5/6 min-w-[20px] bg-yellow-500 text-center">
         <div className="border-1">UId</div>
+        <div className="border-1">DId</div>
         <div className="border-1">AppointmentId</div>
         <div className="border-1">DName</div>
         <div className="border-1">Date</div>
@@ -83,10 +84,11 @@ const AdminViewAppointment = (props: Props) => {
 
       {appointments?.map((appointment) => (
         <div
-          className="sm:grid grid-cols-6 m-auto w-5/6 min-w-[20px] bg-yellow-200 text-center"
+          className="sm:grid grid-cols-7 m-auto w-5/6 min-w-[20px] bg-yellow-200 text-center"
           key={appointment.id}
         >
           <div className="border-1">{appointment.patientId}</div>
+          <div className="border-1">{appointment.doctorId}</div>
           <div className="border-1">{appointment.appointmentId}</div>
           <div className="border-1">{appointment.patient?.userName}</div>
           <div className="border-1">{appointment.appointmentDate}</div>
@@ -101,9 +103,9 @@ const AdminViewAppointment = (props: Props) => {
           </div>
         </div>
       ))}
-      {result?.status !== "" && (
+      {handleResult?.status !== "" && (
         <div className="text-center text-red-500 underline text-lg">
-          {result?.message}
+          {handleResult?.message}
         </div>
       )}
     </div>

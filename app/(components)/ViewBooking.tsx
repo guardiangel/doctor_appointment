@@ -49,19 +49,17 @@ const ViewBooking = (props: Props) => {
       </div>
 
       {appointments?.map((appointment, index) => (
-        <>
-          <div
-            className="sm:grid grid-cols-6 m-auto w-5/6 min-w-[20px] bg-yellow-200 text-center"
-            key={appointment.id}
-          >
-            <div className="border-2">{appointment.appointmentId}</div>
-            <div className="border-2">{appointment.patientId}</div>
-            <div className="border-2">{appointment.doctorId}</div>
-            <div className="border-2">{appointment.doctor.userName}</div>
-            <div className="border-2">{appointment.appointmentDate}</div>
-            <div className="border-2">{appointment.timeSlotValue}</div>
-          </div>
-        </>
+        <div
+          className="sm:grid grid-cols-6 m-auto w-5/6 min-w-[20px] bg-yellow-200 text-center"
+          key={appointment.id}
+        >
+          <div className="border-2">{appointment.appointmentId}</div>
+          <div className="border-2">{appointment.patientId}</div>
+          <div className="border-2">{appointment.doctorId}</div>
+          <div className="border-2">{appointment.doctor.userName}</div>
+          <div className="border-2">{appointment.appointmentDate}</div>
+          <div className="border-2">{appointment.timeSlotValue}</div>
+        </div>
       ))}
     </>
   );

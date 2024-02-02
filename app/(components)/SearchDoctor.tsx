@@ -58,7 +58,7 @@ const SearchDoctor = (props: Props) => {
 
   return (
     <div>
-      <div className="text-center text-blue-500 underline text-4xl">
+      <div className="text-center text-blue-300 underline text-2xl">
         Search Doctor
       </div>
 
@@ -126,12 +126,15 @@ const SearchDoctor = (props: Props) => {
       )}
 
       <div className="text-center  text-2xl mb-5">
-        <button className="w-20 h-10 bg-blue-500" onClick={handleSearchDoctor}>
+        <button
+          className="w-20 h-10 bg-blue-300 rounded-full"
+          onClick={handleSearchDoctor}
+        >
           Submit
         </button>
       </div>
 
-      <div className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-orange-500 text-center text-2xl ">
+      <div className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-orange-300 text-center text-2xl ">
         <div className="border-1">DId</div>
         <div className="border-1">Name</div>
         <div className="border-1">Address</div>
@@ -142,7 +145,7 @@ const SearchDoctor = (props: Props) => {
       <div>
         {doctors?.map((doctor, index) => (
           <div
-            className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-yellow-400 text-xl text-center"
+            className="sm:grid grid-cols-5 m-auto w-5/6 min-w-[20px] bg-yellow-100 text-xl text-center"
             key={doctor.id}
           >
             <div className="border-1">{doctor.userId}</div>

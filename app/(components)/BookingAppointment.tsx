@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   AppointmentEntity,
   CategoryEntity,
+  HandleResult,
   TimeslotEntity,
   UserEntity,
   UserLoginState,
@@ -35,9 +36,14 @@ const BookingAppointment = (props: Props) => {
   );
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedDoctorId, setSelectedDoctorId] = useState("");
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>();
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("");
 
   const [checkTimeSlotFlag, setCheckTimeSlotFlag] = useState(false);
+
+  const [handleResult, setHandleResult] = useState<HandleResult>({
+    status: "",
+    message: "",
+  });
 
   //if refresh the current page
   const [refreshFlag, setRefreshFlag] = useState(false);
@@ -46,7 +52,7 @@ const BookingAppointment = (props: Props) => {
     getAllTimeslots();
     getAllCategory();
     getMaxAppointmentId();
-  }, [refreshFlag]);
+  }, [refreshFlag, handleResult]);
 
   //Change category, select relative doctors
   const handleSelectedCategory = async (e: any) => {
@@ -57,8 +63,12 @@ const BookingAppointment = (props: Props) => {
 
   //choose an appointment data
   const handleSelectedDate = async () => {
+    setHandleResult({
+      status: "",
+      message: "",
+    }); //hide the previous prompt info
+
     const formateDate = moment(appointmentDate).format("YYYY-MM-DD");
-    console.log("formateDate", formateDate, selectedDoctorId);
 
     if (
       appointmentDate !== "" &&
@@ -83,20 +93,6 @@ const BookingAppointment = (props: Props) => {
       window.alert("Please choose category,doctor, and date");
     }
   };
-
-  //get all the appointments of the chosen doctor
-  // async function getConfirmedAppointment() {
-  //   const appointments = await fetch(
-  //     `${process.env.NEXT_PUBLIC_URL}/api/appointment?getConfirmedAppointment=getConfirmedAppointment&userId=${selectedDoctorId}&appointmentDate=${appointmentDate}`,
-  //     {
-  //       method: "GET",
-  //       headers: { "Content-Type": "application/json" },
-  //     }
-  //   );
-  //   await appointments.json().then((result) => {
-  //     setPreConfiredAppointments(result);
-  //   });
-  // }
 
   function handleChooseTimeSlot(timeSlot: string) {
     setSelectedTimeSlot(timeSlot);
@@ -133,7 +129,6 @@ const BookingAppointment = (props: Props) => {
       }
     );
     await appointment.json().then((result) => {
-      console.log("doctors=", result);
       setDoctors(result);
     });
   }
@@ -162,7 +157,6 @@ const BookingAppointment = (props: Props) => {
       }
     );
     await categories.json().then((result) => {
-      console.log("categories===", result);
       setCategories(result);
     });
   }
@@ -172,7 +166,7 @@ const BookingAppointment = (props: Props) => {
     category: selectedCategory,
     doctor: selectedDoctorId,
     appointmentDate: appointmentDate, //format to string type when submitting
-    timeslot: selectedTimeSlot,
+    timeslot: "",
     patientId: currentUser.userId,
   };
 
@@ -182,6 +176,14 @@ const BookingAppointment = (props: Props) => {
   ) => {
     const formateDate = moment(appointmentDate).format("YYYY-MM-DD");
     data.appointmentDate = formateDate;
+    data.timeslot = selectedTimeSlot;
+
+    if (data.timeslot === "") {
+      window.alert(
+        "Haven't chosen right time slot. Please re-select time slot."
+      );
+      return;
+    }
 
     const appointment = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/appointment`,
@@ -192,16 +194,15 @@ const BookingAppointment = (props: Props) => {
       }
     );
     await appointment.json().then((result) => {
-      if (result === null) {
-        window.alert("Can't add the appointment, please contact the admin.");
+      setHandleResult(result);
+      if (result.status === "9999") {
       } else {
-        console.log("created appointment", result);
         setRefreshFlag(true);
         setSelectedCategory("");
         setSelectedDoctorId("");
+        setSelectedTimeSlot("");
         setAppointmentDate(moment(new Date()).format("YYYY-MM-DD").toString());
         setCheckTimeSlotFlag(false);
-        window.alert("Add appointment successfully.");
       }
     });
   };
@@ -221,25 +222,32 @@ const BookingAppointment = (props: Props) => {
             </div>
             {/**userId */}
             <div>
-              <label htmlFor="inputAppointmentId">Appointment Id:</label>
+              <label htmlFor="inputAppointmentId" className="text-xl">
+                AppointmentId:
+              </label>
               <Field
                 id="inputAppointmentId"
                 name="appointmentId"
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-red-500"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 bg-gray-300 text-lg"
                 readOnly
               />
               <ErrorMessage name="appointmentId" component="span" />
             </div>
             {/**category */}
             <div>
-              <label htmlFor="category">Category:</label>
+              <label htmlFor="category" className="text-xl">
+                Category:
+              </label>
               <Field
                 component="select"
                 id="category"
                 name="category"
-                onChange={(e: any) => handleSelectedCategory(e)}
+                onChange={(e: any) => {
+                  setCheckTimeSlotFlag(false);
+                  handleSelectedCategory(e);
+                }}
                 // multiple={true}
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 text-lg"
               >
                 <option value="">Please choose a category</option>
                 {categories?.map((category) => (
@@ -256,14 +264,19 @@ const BookingAppointment = (props: Props) => {
             </div>
             {/**doctor */}
             <div>
-              <label htmlFor="doctor">Doctor:</label>
+              <label htmlFor="doctor" className="text-xl">
+                Doctor:
+              </label>
               <Field
                 component="select"
                 id="doctor"
                 name="doctor"
-                onChange={(e: any) => setSelectedDoctorId(e.target.value)}
+                onChange={(e: any) => {
+                  setCheckTimeSlotFlag(false);
+                  setSelectedDoctorId(e.target.value);
+                }}
                 // multiple={true}
-                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2"
+                className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 text-lg"
               >
                 <option value="">Please choose a doctor</option>
                 {doctors?.map((doctor) => (
@@ -277,15 +290,20 @@ const BookingAppointment = (props: Props) => {
 
             {/**date */}
             <div>
-              <label htmlFor="date">Date:</label>
+              <label htmlFor="date" className="text-xl">
+                Date:
+              </label>
               <DatePicker
                 id="selectedDate"
                 name="selectedDate"
                 minDate={new Date()}
                 selected={moment(appointmentDate, "YYYY-MM-DD").toDate()}
-                onChange={(date: any) => setAppointmentDate(date)}
+                onChange={(date: any) => {
+                  setCheckTimeSlotFlag(false);
+                  setAppointmentDate(date);
+                }}
                 dateFormat="yyyy-MM-dd" // Customize the date format as needed
-                className="text-center align-middle w-full min-w-[50px] px-5 py-2 border-2"
+                className="text-center align-middle w-full min-w-[50px] px-5 py-2 border-2 text-lg"
               />
               <ErrorMessage name="date" component="span" />
             </div>
@@ -299,6 +317,12 @@ const BookingAppointment = (props: Props) => {
                 Check
               </button>
             </div>
+
+            {handleResult?.status !== "" && (
+              <div className="text-center text-red-500 underline text-2xl mt-5">
+                {handleResult?.message}
+              </div>
+            )}
 
             {/**time slots */}
             {checkTimeSlotFlag && (

@@ -146,11 +146,18 @@ export async function POST(req: Request) {
     appointmentDate: appointmentDate,
   };
 
-  const createAppoinment = await customPrisma.appointment.create({
-    data,
-  });
+  try {
+    await customPrisma.appointment.create({
+      data,
+    });
 
-  return NextResponse.json(createAppoinment);
+    return NextResponse.json({
+      status: "8888",
+      message: `Add appointment, appointment ${appointmentId} successfully.`,
+    });
+  } catch (e: any) {
+    return NextResponse.json({ status: "9999", message: e?.meta?.cause });
+  }
 }
 
 export async function DELETE(req: Request) {
