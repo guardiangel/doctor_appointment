@@ -135,6 +135,29 @@ export async function PATCH(req: Request) {
       categoryValue: category ? category : undefined,
     };
 
+    //if exists same email except the current user
+    const existUser: User[] = await customPrisma.user.findMany({
+      where: {
+        NOT: {
+          userId: {
+            in: [userId],
+          },
+        },
+        OR: [
+          {
+            email: email,
+          },
+        ],
+      },
+    });
+
+    if (existUser.length > 0) {
+      return NextResponse.json({
+        status: "9999",
+        message: `Can't modify email ${email} because it already exists in database, .`,
+      });
+    }
+
     await customPrisma.user.update({
       where: {
         id: id,
@@ -146,6 +169,7 @@ export async function PATCH(req: Request) {
       message: `modify userId ${userId} Info successfully.`,
     });
   } catch (e: any) {
+    console.log("eee", e);
     return NextResponse.json({ status: "9999", message: e?.meta?.cause });
   }
 }

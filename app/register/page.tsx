@@ -22,8 +22,6 @@ const Register = (props: Props) => {
 
   //handle add user event
   const handleAddUserSubmit = async (data: typeof initialAddUserValues) => {
-    console.log("usersubmit=", data);
-
     const user = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/user`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -26,7 +26,7 @@ const ViewDoctorDetail = (props: Props) => {
   useEffect(() => {
     getUserInfoByUserId(userLoginState.id);
     getAllCategory();
-  }, [userLoginState.id]);
+  }, [userLoginState.id, handleResult]);
 
   //get all categories
   async function getAllCategory() {
@@ -161,7 +161,6 @@ const ViewDoctorDetail = (props: Props) => {
                 id="category"
                 name="category"
                 className="text-center align-middle w-1/6 min-w-[20px] px-5 py-2 border-2 ml-1"
-                //onChange={(e: any) => setCategoryValue(e.target.value)}
               >
                 <option value="">Please select a category</option>
                 {categories?.map((category) => (
