@@ -43,10 +43,10 @@ const DefaultIconPage = (props: Props) => {
         </div>
       </div>
       <div className="text-center text-red-400 text-3xl ">
-        After logging in, please do not use F5 or the refresh button next to the
-        address bar to refresh the entire page. This project uses contextAPI,
-        which is only valid after the user logs in. Once you refresh the page,
-        you will return to the login interface..
+        After logging in, please do not use F5 or the &quot;Reload this
+        page&quot; button next to the address bar to refresh the entire page.
+        This project uses contextAPI, which is only valid after the user logs
+        in. Once you refresh the page, you will return to the login page.
       </div>
     </>
   );
