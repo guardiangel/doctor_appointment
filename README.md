@@ -1,22 +1,16 @@
-This demo consists of Nextjs,tailwindcss,prisma
+This demo consists of Nextjs,tailwindcss,prisma, and mysql
+
+Pre-condition:
+1.NodeJs and yarn library have been installed.
 
 Initialization and start up:
-1.Set up database schema in mysql called doctor_appointment
-2.Set up the DATABASE_URL in the .env file
+1.Create database schema in mysql called doctor_appointment
+2.Adjust parameters in the .env file, including username, password, port, etc.
 3.Create table using the command : npx prisma db push
-4.Init the users for login: npx prisma db seed
+F:\doctor_appointment> npx prisma db push
+4.Init the data: npx prisma db seed
+F:\doctor_appointment> npx prisma db seed
 5.Start the app: yarn dev
+F:\doctor_appointment>yarn dev
 
-1.Set up the NextJs project
-&nbsp;&nbsp;yarn create next-app
-
-2.Add css style, material ui only work for client in nextjs for now
-&nbsp;&nbsp;yarn add tailwindcss postcss autoprefixer
-&nbsp;&nbsp;yarn add @tailwindcss/typography
-
-3.Add prisma
-&nbsp;&nbsp;yarn prisma
-&nbsp;&nbsp;yarn add @prisma/client
-&nbsp;&nbsp;yarn add typescript ts-node @types/node //used for inserting data to database
-&nbsp;&nbsp;npx prisma db push //create table
-&nbsp;&nbsp;npx prisma db seed // insert data to database, see seed.ts and package.json for more details
+This project initializes 4 users in advance, 1001 is the administrator, and 2001 is the doctor. 3001 and 3002 are patients.
